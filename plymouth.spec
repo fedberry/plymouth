@@ -1,6 +1,6 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.1.0
+Version: 0.2.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -18,6 +18,25 @@ Plymouth provides an attractive graphical boot animation in
 place of the text messages that normally get shown.  Text
 messages are instead redirected to a log file for viewing
 after boot.
+
+%package libs
+Summary: Plymouth libraries
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+
+%description libs
+This package contains the libply and libplybootsplash libraries
+used by Plymouth.
+
+%package devel
+Summary: Libraries and headers for writing Plymouth splash plugins
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Requires: pkgconfig
+
+%description devel
+This package contains the libply and libplybootsplash libraries
+and headers needed to develop 3rd party splash plugins for Plymouth.
 
 %package plugin-fade-in
 Summary: Plymouth "Fade-In" plugin
@@ -59,8 +78,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} \;
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/libply.so
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -73,12 +90,24 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/plymouth
 %{_libexecdir}/plymouth/plymouthd
 %{_libexecdir}/plymouth/plymouth-update-initrd
-%{_libdir}/libply.so.*
+%{_libexecdir}/plymouth/plymouth-populate-initrd
 %{_bindir}/plymouth
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
 %{_localstatedir}/run/plymouth
+
+%files devel
+%defattr(-, root, root)
+%{_libdir}/libply.so
+%{_libdir}/libplybootsplash.so
+%{_libdir}/pkgconfig/plymouth-1.pc
+%{_includedir}/plymouth-1
+
+%files libs
+%defattr(-, root, root)
+%{_libdir}/libply.so.*
+%{_libdir}/libplybootsplash.so.*
 
 %files plugin-fade-in
 %defattr(-, root, root)
@@ -100,5 +129,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Mon Jun  9 2008 Ray Strode <rstrode@redhat.com> - 0.2.0-1
+- Update to version 0.2.0
+- Integrate more tightly with nash (pending nash changes)
+- ship libs for out of tree splash plugins
+- gradient support
+- random bug fixes
+
 * Fri May 30 2008 Ray Strode <rstrode@redhat.com> - 0.1.0-1
 - Initial import, version 0.1.0
