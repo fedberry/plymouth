@@ -84,8 +84,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
-%postun
-/sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%preun
 if [ $1 -eq 1 ]; then
     %{_sbindir}/plymouth-set-default-plugin --reset
 fi
