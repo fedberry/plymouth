@@ -1,6 +1,6 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.2.0
+Version: 0.3.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -65,8 +65,10 @@ spins in the shape of an infinity sign.
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
+           --without-default-plugin                              \
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
-           --with-background-color=0x005391
+           --with-background-start-color-stop=0x0073B3           \
+           --with-background-end-color-stop=0x00457E
 
 make
 
@@ -83,6 +85,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin --reset
+fi
+
+%post plugin-spinfinity
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin spinfinity
+fi
+
+%postun plugin-spinfinity
+if [ $1 -eq 0 ]; then
+    %{_sbindir}/plymouth-set-default-plugin --reset
+fi
+
+%post plugin-fade-in
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin fade-in
+fi
+
+%postun plugin-fade-in
+if [ $1 -eq 0 ]; then
+    %{_sbindir}/plymouth-set-default-plugin --reset
+fi
 
 %files
 %defattr(-, root, root)
@@ -91,6 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libexecdir}/plymouth/plymouthd
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
+%{_sbindir}/plymouth-set-default-plugin
 %{_bindir}/plymouth
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
@@ -129,6 +155,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.0-1
+- Update to version 0.3.0
+- Better plugin handling
+- Better integration with mkinitrd (pending mkinitrd changes)
+- random bug fixes
+
 * Mon Jun  9 2008 Ray Strode <rstrode@redhat.com> - 0.2.0-1
 - Update to version 0.2.0
 - Integrate more tightly with nash (pending nash changes)
