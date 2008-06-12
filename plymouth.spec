@@ -1,6 +1,6 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.3.0
+Version: 0.3.1
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -155,6 +155,10 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.1-1
+- Update to version 0.3.1
+- Don't ship generated initrd scripts in tarball
+
 * Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.0-1
 - Update to version 0.3.0
 - Better plugin handling
