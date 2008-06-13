@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.3.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -157,6 +157,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.1-3
+- scriplet should be preun, not postun
+
 * Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.1-2
 - Fix postun scriptlet
 
