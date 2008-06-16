@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -12,6 +12,7 @@ Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
+Patch0: drop-text-mode.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -62,13 +63,15 @@ spins in the shape of an infinity sign.
 
 %prep
 %setup -q
+%patch0 -p1 -b .drop-text-mode
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
            --without-default-plugin                              \
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
            --with-background-start-color-stop=0x0073B3           \
-           --with-background-end-color-stop=0x00457E
+           --with-background-end-color-stop=0x00457E             \
+           --with-background-color=0x00457E
 
 make
 
@@ -157,6 +160,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Mon Jun 16 2008 Ray Strode <rstrode@redhat.com> - 0.3.2-2
+- dont go back to text mode on exit
+
 * Mon Jun 16 2008 Ray Strode <rstrode@redhat.com> - 0.3.2-1
 - Update to version 0.3.2
 - show gradient in spinfinity plugin
