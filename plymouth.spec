@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.3.1
-Release: 3%{?dist}
+Version: 0.3.2
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -157,6 +157,13 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Mon Jun 16 2008 Ray Strode <rstrode@redhat.com> - 0.3.2-1
+- Update to version 0.3.2
+- show gradient in spinfinity plugin
+- Drop fade out in spinfinity plugin
+- fix throbber placement
+- rename graphical.so to default.so
+
 * Thu Jun 12 2008 Ray Strode <rstrode@redhat.com> - 0.3.1-3
 - scriplet should be preun, not postun
 
