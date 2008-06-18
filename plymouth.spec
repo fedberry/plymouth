@@ -87,7 +87,6 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 rm -rf $RPM_BUILD_ROOT
 
 %postun
-echo plymouth postun "$@"
 if [ $1 -eq 0 ]; then
 	rm %{_libdir}/plymouth/default.so
 fi
@@ -96,13 +95,11 @@ fi
 %postun libs -p /sbin/ldconfig
 
 %post plugin-spinfinity
-echo plymouth-spinfinity post "$@"
 if [ $1 -eq 1 ]; then
     %{_sbindir}/plymouth-set-default-plugin spinfinity
 fi
 
 %postun plugin-spinfinity
-echo plymouth-spinfinity postun "$@"
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
@@ -110,13 +107,11 @@ if [ $1 -eq 0 ]; then
 fi
 
 %post plugin-fade-in
-echo plymouth-fade-in post "$@"
 if [ $1 -eq 1 ]; then
     %{_sbindir}/plymouth-set-default-plugin fade-in
 fi
 
 %postun plugin-fade-in
-echo plymouth-fade-in postun "$@"
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
