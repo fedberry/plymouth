@@ -1,0 +1,25 @@
+commit cc0fc4e577e4f397e7115eabfa74ce2f2629f29c
+Author: Ray Strode <rstrode@redhat.com>
+Date:   Sun Jun 22 01:19:18 2008 -0400
+
+    /Really/ exit cleanly if rhgb isn't present on kernel cmdline
+    
+    Unlike b7f4399294fad3d70029526cd7334c50d8673214 which was
+    broken
+
+diff --git a/src/main.c b/src/main.c
+index f554ce0..e855f68 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -454,7 +454,10 @@ main (int    argc,
+   if (!initialize_environment (&state))
+     {
+       if (errno == 0)
+-        return 0;
++        {
++          ply_detach_daemon (daemon_handle, 0);
++          return 0;
++        }
+ 
+       ply_error ("could not setup basic operating environment: %m");
+       ply_detach_daemon (daemon_handle, EX_OSERR);

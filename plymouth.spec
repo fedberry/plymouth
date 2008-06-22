@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.3.2
-Release: 2%{?dist}
+Version: 0.4.0
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -12,7 +12,7 @@ Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
-Patch0: drop-text-mode.patch
+Patch0: fix-harmless-spew.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -63,7 +63,7 @@ spins in the shape of an infinity sign.
 
 %prep
 %setup -q
-%patch0 -p1 -b .drop-text-mode
+%patch0 -p1 -b .fix-harmless-spew
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -107,9 +107,9 @@ if [ $1 -eq 0 ]; then
 fi
 
 %post plugin-fade-in
-if [ $1 -eq 1 ]; then
-    %{_sbindir}/plymouth-set-default-plugin fade-in
-fi
+#if [ $1 -eq 1 ]; then
+#    %{_sbindir}/plymouth-set-default-plugin fade-in
+#fi
 
 %postun plugin-fade-in
 if [ $1 -eq 0 ]; then
@@ -164,6 +164,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Sun Jun 22 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-1
+- Update to version 0.4.0
+- Only run if rhgb is on kernel command line
+- Make text plugin more animated
+
 * Mon Jun 16 2008 Ray Strode <rstrode@redhat.com> - 0.3.2-2
 - dont go back to text mode on exit
 
