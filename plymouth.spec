@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -13,6 +13,7 @@ Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
 Patch0: fix-harmless-spew.patch
+Patch1: make-reset-work.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -64,6 +65,7 @@ spins in the shape of an infinity sign.
 %prep
 %setup -q
 %patch0 -p1 -b .fix-harmless-spew
+%patch1 -p1 -b .make-reset-work
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -164,6 +166,10 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Sun Jun 22 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-2
+- Make plymouth-set-default-plugin --reset choose the latest
+  installed plugin, not the earliest
+
 * Sun Jun 22 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-1
 - Update to version 0.4.0
 - Only run if rhgb is on kernel command line
