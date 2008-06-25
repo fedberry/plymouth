@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.4.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -16,6 +16,7 @@ Requires: elfutils
 
 Patch0: fix-harmless-spew.patch
 Patch1: make-reset-work.patch
+Patch2: make-ask-for-password-work.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -68,6 +69,7 @@ spins in the shape of an infinity sign.
 %setup -q
 %patch0 -p1 -b .fix-harmless-spew
 %patch1 -p1 -b .make-reset-work
+%patch2 -p1 -b .make-ask-for-password-work
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -168,6 +170,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Jun 25 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-4
+- Make "Password: " show up correctly in text plugin
+
 * Wed Jun 25 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-3
 - Require elfutils (bug 452797)
 
