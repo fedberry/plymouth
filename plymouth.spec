@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.4.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -12,6 +12,8 @@ Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
+Requires: elfutils
+
 Patch0: fix-harmless-spew.patch
 Patch1: make-reset-work.patch
 
@@ -166,6 +168,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Jun 25 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-3
+- Require elfutils (bug 452797)
+
 * Sun Jun 22 2008 Ray Strode <rstrode@redhat.com> - 0.4.0-2
 - Make plymouth-set-default-plugin --reset choose the latest
   installed plugin, not the earliest
