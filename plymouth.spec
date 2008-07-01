@@ -1,6 +1,6 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.4.5
+Version: 0.5.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -163,6 +163,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Thu Jun 26 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-1
+- Add new client "ask-for-password" command which feeds
+  the user input to a program instead of standard output,
+  and loops when the program returns non-zero exit status.
+
 * Thu Jun 26 2008 Ray Strode <rstrode@redhat.com> - 0.4.5-1
 - Update to version 0.4.5
 - Make text plugin blue and less 80s
