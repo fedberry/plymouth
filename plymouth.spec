@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -13,6 +13,7 @@ Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
 Requires: elfutils
+Requires: system-plymouth-plugin >= %{version}-%{release}
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -55,6 +56,7 @@ Summary: Plymouth "Spinfinity" plugin
 Group: System Environment/Base
 Requires: %name = %{version}-%{release}
 BuildRequires: libpng-devel
+Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description plugin-spinfinity
 This package contains the "Spinfinity" boot splash plugin for
@@ -87,7 +89,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun
 if [ $1 -eq 0 ]; then
-	rm %{_libdir}/plymouth/default.so
+    rm -f %{_libdir}/plymouth/default.so
+fi
+
+%post
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin text
 fi
 
 %post libs -p /sbin/ldconfig
@@ -101,7 +108,7 @@ fi
 %postun plugin-spinfinity
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
+        %{_sbindir}/plymouth-set-default-plugin text
     fi
 fi
 
@@ -163,7 +170,13 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
-* Thu Jun 26 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-1
+* Tue Jul  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-2
+- Pull in spinfinity by default.  This whole "figure out
+  which plugin to use" set of scripts and scriptlets
+  needs work.  We need to separate distro default from
+  user choice.
+
+* Thu Jul  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-1
 - Add new client "ask-for-password" command which feeds
   the user input to a program instead of standard output,
   and loops when the program returns non-zero exit status.
