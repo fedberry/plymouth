@@ -1,0 +1,11 @@
+diff -up plymouth-0.5.0/scripts/plymouth-populate-initrd.in.fix-ppc plymouth-0.5.0/scripts/plymouth-populate-initrd.in
+--- plymouth-0.5.0/scripts/plymouth-populate-initrd.in.fix-ppc	2008-07-08 13:51:02.000000000 -0400
++++ plymouth-0.5.0/scripts/plymouth-populate-initrd.in	2008-07-08 13:51:19.000000000 -0400
+@@ -89,6 +89,7 @@ EOF
+     for bin in $BINS ; do
+         DEPS=$(get_dso_deps $bin)
+         for dep in $DEPS; do
++            mkdir -p ${INITRDDIR}$(dirname $dep)
+             install -D -m755 $dep ${INITRDDIR}$(dirname $dep)
+         done
+     done
