@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -16,6 +16,7 @@ Requires: elfutils
 Requires: system-plymouth-plugin >= %{version}-%{release}
 
 Patch0: plymouth-0.5.0-fix-ppc.patch
+Patch1: restore-color-palette.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -69,6 +70,7 @@ spins in the shape of an infinity sign.
 %setup -q
 
 %patch0 -p1 -b .fix-ppc
+%patch1 -p1 -b .restore-color-palette
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -174,6 +176,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Jul  9 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-4
+- add ctrl-r to rotate text color palette back to stock values
+
 * Tue Jul  8 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-3
 - Fix populate script on ppc (bug 454353)
 
