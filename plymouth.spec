@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -13,6 +13,7 @@ Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
+Requires: nash
 
 Patch0: plymouth-0.5.0-fix-ppc.patch
 Patch1: restore-color-palette.patch
@@ -177,6 +178,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Jul 30 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-6
+- Add nash requires
+
 * Wed Jul  9 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-5
 - Use a new heuristic for finding libdir, since the old
   one falls over on ia64
