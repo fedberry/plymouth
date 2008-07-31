@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 6%{?dist}
+Release: 8.2008.07.31%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -69,10 +69,6 @@ spins in the shape of an infinity sign.
 
 %prep
 %setup -q
-
-%patch0 -p1 -b .fix-ppc
-%patch1 -p1 -b .restore-color-palette
-%patch2 -p1 -b .find-right-libdir
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -178,7 +174,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
-* Thu Jul 31 2008 Peter Jones <pjones@redhat.com>
+* Thu Jul 31 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-8.2008.07.31
+- Update to snapshot to get new plymouth-populate-initrd features
+- Make removing rhgb use details plugin instead of exiting
+
+* Thu Jul 31 2008 Peter Jones <pjones@redhat.com> - 0.5.0-7
 - Make it a mkinitrd requires instead of a nash requires (that will
   still pull in nash, but we need mkinitrd for newer plymouth-populate-initrd)
 
