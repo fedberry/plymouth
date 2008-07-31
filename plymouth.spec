@@ -13,7 +13,7 @@ Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
-Requires: nash
+Requires: mkinitrd
 
 Patch0: plymouth-0.5.0-fix-ppc.patch
 Patch1: restore-color-palette.patch
@@ -178,6 +178,10 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Thu Jul 31 2008 Peter Jones <pjones@redhat.com>
+- Make it a mkinitrd requires instead of a nash requires (that will
+  still pull in nash, but we need mkinitrd for newer plymouth-populate-initrd)
+
 * Wed Jul 30 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-6
 - Add nash requires
 
