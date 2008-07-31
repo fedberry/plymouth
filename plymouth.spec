@@ -15,10 +15,6 @@ Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires: mkinitrd
 
-Patch0: plymouth-0.5.0-fix-ppc.patch
-Patch1: restore-color-palette.patch
-Patch2: find-right-libdir.patch
-
 %description
 Plymouth provides an attractive graphical boot animation in
 place of the text messages that normally get shown.  Text
