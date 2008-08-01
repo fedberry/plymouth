@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 8.2008.08.01%{?dist}
+Release: 9.2008.08.01%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -14,6 +14,8 @@ Provides: rhgb = 1:10.0.0
 Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires: mkinitrd
+
+Patch0: plymouth-0.5.0-no-set-e.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -65,6 +67,7 @@ spins in the shape of an infinity sign.
 
 %prep
 %setup -q
+%patch0 -p1 -b .no-set-e
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -170,6 +173,10 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Fri Aug  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-9.2008.08.01
+- new plymout-populate-initrd features don't work with the set -e at the
+  top of it.
+
 * Thu Jul 31 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-8.2008.08.01
 - Update to another snapshot to actually get new
   plymouth-populate-initrd features
