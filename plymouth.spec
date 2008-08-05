@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 9.2008.08.01%{?dist}
+Release: 10.2008.08.01%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -131,6 +131,8 @@ fi
 %defattr(-, root, root)
 %doc AUTHORS NEWS README
 %dir %{_datadir}/plymouth
+%dir %{_libexecdir}/plymouth
+%dir %{_libdir}/plymouth
 %{_libexecdir}/plymouth/plymouthd
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
@@ -173,6 +175,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Tue Aug  5 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-10.2008.08.01
+- Add plymouth dirs to file list (bug 457871)
+
 * Fri Aug  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-9.2008.08.01
 - new plymout-populate-initrd features don't work with the set -e at the
   top of it.
