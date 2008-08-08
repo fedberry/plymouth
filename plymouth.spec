@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 13.2008.08.07%{?dist}
+Release: 14.2008.08.08%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -174,6 +174,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Fri Aug  8 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-14.2008.08.08
+- Don't require a modifiable text color map (may fix serial consoles)
+
 * Thu Aug  7 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-13.2008.08.07
 - Update to new snapshot which when combined with a new mkinitrd should
   make unlocking encrypted root partitions work again
