@@ -1,12 +1,14 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 14.2008.08.08%{?dist}
+Release: 15.2008.08.08%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Patch0: plymouth-0.5.0-textbar-hotness.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
@@ -67,6 +69,7 @@ spins in the shape of an infinity sign.
 
 %prep
 %setup -q
+%patch0 -p1 -b .textbar
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -174,6 +177,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Tue Aug 12 2008 Adam Jackson <ajax@redhat.com> 0.5.0-15.2008.08.08
+- plymouth-0.5.0-textbar-hotness.patch: Change the text plugin to a slightly
+  more traditional progress bar, to maintain the illusion of progress better
+  than the eternally oscillating cylon. Note: still incomplete.
+
 * Fri Aug  8 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-14.2008.08.08
 - Don't require a modifiable text color map (may fix serial consoles)
 
