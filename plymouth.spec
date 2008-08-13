@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 15.2008.08.08%{?dist}
+Release: 16.2008.08.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -41,6 +41,26 @@ Requires: pkgconfig
 %description devel
 This package contains the libply and libplybootsplash libraries
 and headers needed to develop 3rd party splash plugins for Plymouth.
+
+%package utils
+Summary: Plymouth related utilities
+Group: Applications/System
+Requires: %{name} = %{version}-%{release}
+
+%description utils
+This package contains 
+with plymouth.
+
+%package gdm-hooks
+Summary: Plymouth GDM integration
+Group: Applications/System
+Requires: gdm >= 1:2.22.0
+Requires: %{name} = %{version}-%{release}
+
+%description gdm-hooks
+This package contains support files for integrating Plymouth with GDM
+Namely, it adds hooks to show boot messages at the login screen in the
+event start-up services fail.
 
 %package plugin-fade-in
 Summary: Plymouth "Fade-In" plugin
@@ -157,6 +177,12 @@ fi
 %{_libdir}/libply.so.*
 %{_libdir}/libplybootsplash.so.*
 
+%files utils
+%{_bindir}/plymouth-log-viewer
+
+%files gdm-hooks
+%{_datadir}/gdm/autostart/LoginWindow/plymouth-log-viewer.desktop
+
 %files plugin-fade-in
 %defattr(-, root, root)
 %dir %{_datadir}/plymouth/fade-in
@@ -177,6 +203,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Tue Aug 12 2008 Adam Jackson <ajax@redhat.com> 0.5.0-16.2008.08.13
+- Add a boot failure viewer to login screen (written by Matthias)
+
 * Tue Aug 12 2008 Adam Jackson <ajax@redhat.com> 0.5.0-15.2008.08.08
 - plymouth-0.5.0-textbar-hotness.patch: Change the text plugin to a slightly
   more traditional progress bar, to maintain the illusion of progress better
