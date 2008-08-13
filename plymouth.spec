@@ -46,10 +46,11 @@ and headers needed to develop 3rd party splash plugins for Plymouth.
 Summary: Plymouth related utilities
 Group: Applications/System
 Requires: %{name} = %{version}-%{release}
+BuildRequires: gtk2-devel
 
 %description utils
-This package contains 
-with plymouth.
+This package contains utilities that integrate with Plymouth
+including a boot log viewing application.
 
 %package gdm-hooks
 Summary: Plymouth GDM integration
@@ -203,7 +204,7 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
-* Tue Aug 12 2008 Adam Jackson <ajax@redhat.com> 0.5.0-16.2008.08.13
+* Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-16.2008.08.13
 - Add a boot failure viewer to login screen (written by Matthias)
 
 * Tue Aug 12 2008 Adam Jackson <ajax@redhat.com> 0.5.0-15.2008.08.08
