@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 18.2008.08.13%{?dist}
+Release: 19.2008.08.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -9,6 +9,7 @@ URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0: plymouth-0.5.0-textbar-hotness.patch
+Patch1: serial-console.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
@@ -92,6 +93,7 @@ spins in the shape of an infinity sign.
 %prep
 %setup -q
 %patch0 -p1 -b .textbar
+%patch1 -p1 -b .serial-console
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -206,6 +208,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-19.2008.08.13
+- add a patch that may help serial console users
+
 * Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-18.2008.08.13
 - add spool directory to file list
 

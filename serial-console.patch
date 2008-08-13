@@ -1,0 +1,335 @@
+diff --git a/src/client/ply-boot-client.c b/src/client/ply-boot-client.c
+index 2b1d075..c6b3075 100644
+--- a/src/client/ply-boot-client.c
++++ b/src/client/ply-boot-client.c
+@@ -282,6 +282,10 @@ ply_boot_client_process_incoming_replies (ply_boot_client_t *client)
+ 
+       ((ply_boot_client_answer_handler_t) request->handler) (request->user_data, answer, client);
+     }
++  else if (memcmp (byte, PLY_BOOT_PROTOCOL_RESPONSE_TYPE_NO_ANSWER, sizeof (uint8_t)) == 0)
++    {
++      ((ply_boot_client_answer_handler_t) request->handler) (request->user_data, NULL, client);
++    }
+   else
+     goto out;
+ 
+diff --git a/src/client/plymouth.c b/src/client/plymouth.c
+index c343378..33deb24 100644
+--- a/src/client/plymouth.c
++++ b/src/client/plymouth.c
+@@ -102,9 +102,16 @@ answer_via_command (answer_state_t *answer_state,
+   pid_t pid;
+   int command_input_sender_fd, command_input_receiver_fd;
+ 
++  /* answer may be NULL which means,
++   * "The daemon can't ask the user questions,
++   *   do all the prompting from the client"
++   */
++
+   gave_answer = false;
+-  if (!ply_open_unidirectional_pipe (&command_input_sender_fd,
+-                                     &command_input_receiver_fd))  return false;
++  if (answer != NULL &&
++    !ply_open_unidirectional_pipe (&command_input_sender_fd,
++                                   &command_input_receiver_fd))
++    return false;
+ 
+   pid = fork (); 
+ 
+@@ -114,21 +121,29 @@ answer_via_command (answer_state_t *answer_state,
+   if (pid == 0)
+     {
+       char **args;
+-      close (command_input_sender_fd);
+       args = split_string (answer_state->command, ' ');
+-      dup2 (command_input_receiver_fd, STDIN_FILENO);
++      if (answer != NULL)
++        {
++          close (command_input_sender_fd);
++          dup2 (command_input_receiver_fd, STDIN_FILENO);
++        }
+       execvp (args[0], args); 
+       ply_trace ("could not run command: %m");
+       _exit (127);
+     }
+-  close (command_input_receiver_fd);
+ 
+-  if (write (command_input_sender_fd, answer, strlen (answer)) < 0)
+-    goto out;
++  if (answer != NULL)
++    {
++      close (command_input_receiver_fd);
++
++      if (write (command_input_sender_fd, answer, strlen (answer)) < 0)
++        goto out;
++    }
+ 
+   gave_answer = true;
+ out:
+-  close (command_input_sender_fd);
++  if (answer != NULL)
++    close (command_input_sender_fd);
+   waitpid (pid, exit_status, 0); 
+ 
+   return gave_answer;
+diff --git a/src/libplybootsplash/ply-answer.c b/src/libplybootsplash/ply-answer.c
+index 9213875..24a56f6 100644
+--- a/src/libplybootsplash/ply-answer.c
++++ b/src/libplybootsplash/ply-answer.c
+@@ -69,6 +69,15 @@ ply_answer_with_string (ply_answer_t *answer,
+ 
+ }
+ 
++void
++ply_answer_unknown (ply_answer_t *answer)
++{
++  assert (answer != NULL);
++
++  if (answer->handler != NULL)
++    answer->handler (answer->user_data, NULL, answer);
++}
++
+ #ifdef PLY_ANSWER_ENABLE_TEST
+ 
+ #include <stdio.h>
+diff --git a/src/libplybootsplash/ply-answer.h b/src/libplybootsplash/ply-answer.h
+index 4e04a75..3da41f3 100644
+--- a/src/libplybootsplash/ply-answer.h
++++ b/src/libplybootsplash/ply-answer.h
+@@ -44,6 +44,8 @@ void ply_answer_free (ply_answer_t *answer);
+ 
+ void ply_answer_with_string (ply_answer_t *answer,
+                              const char   *string);
++
++void ply_answer_unknown (ply_answer_t *answer);
+ #endif
+ 
+ #endif /* PLY_ANSWER_H */
+diff --git a/src/main.c b/src/main.c
+index fffa0c4..e11f964 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -59,6 +59,7 @@ typedef struct
+   char kernel_command_line[PLY_MAX_COMMAND_LINE_SIZE];
+   uint32_t showing_details : 1;
+   uint32_t system_initialized : 1;
++  uint32_t using_serial_console : 1;
+ 
+   int number_of_errors;
+ } state_t;
+@@ -205,6 +206,12 @@ plymouth_should_show_default_splash (state_t *state)
+   };
+   int i;
+ 
++  if (state->using_serial_console)
++    return false;
++
++  if (state->window == NULL)
++    return false;
++
+   for (i = 0; strings[i] != NULL; i++)
+     {
+       int cmp;
+@@ -228,10 +235,11 @@ static void
+ on_show_splash (state_t *state)
+ {
+ 
+-  if (state->window == NULL)
++  if (state->window == NULL && !state->using_serial_console)
+     {
+       state->window = create_window (state, 1);
+-      ply_window_take_console (state->window);
++      if (state->window != NULL)
++        ply_window_take_console (state->window);
+     }
+ 
+   if (plymouth_should_show_default_splash (state))
+@@ -353,10 +361,8 @@ create_window (state_t    *state,
+   ply_trace ("opening window");
+   if (!ply_window_open (window))
+     {
+-      ply_save_errno ();
+       ply_trace ("could not open window: %m");
+       ply_window_free (window);
+-      ply_restore_errno ();
+       return NULL;
+     }
+ 
+@@ -467,6 +473,23 @@ check_verbosity (state_t *state)
+     ply_trace ("tracing shouldn't be enabled!");
+ }
+ 
++static void
++check_for_serial_console (state_t *state)
++{
++  ply_trace ("checking if splash screen should be disabled");
++
++  if (strstr (state->kernel_command_line, " console=") != NULL)
++    {
++      ply_trace ("serial console found!");
++      state->using_serial_console = true;
++    }
++  else
++    {
++      ply_trace ("serial console not found!");
++      state->using_serial_console = false;
++    }
++}
++
+ static bool
+ set_console_io_to_vt1 (state_t *state)
+ {
+@@ -493,9 +516,13 @@ initialize_environment (state_t *state)
+     return false;
+ 
+   check_verbosity (state);
++  check_for_serial_console (state);
+ 
+-  if (!set_console_io_to_vt1 (state))
+-    return false;
++  if (!state->using_serial_console)
++    {
++      if (!set_console_io_to_vt1 (state))
++          return false;
++    }
+ 
+   ply_trace ("initialized minimal work environment");
+   return true;
+diff --git a/src/ply-boot-protocol.h b/src/ply-boot-protocol.h
+index 594064a..852b9d9 100644
+--- a/src/ply-boot-protocol.h
++++ b/src/ply-boot-protocol.h
+@@ -35,6 +35,7 @@
+ #define PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ACK "\x6"
+ #define PLY_BOOT_PROTOCOL_RESPONSE_TYPE_NAK "\x15"
+ #define PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ANSWER "\x2"
++#define PLY_BOOT_PROTOCOL_RESPONSE_TYPE_NO_ANSWER "\x5"
+ 
+ #endif /* PLY_BOOT_PROTOCOL_H */
+ /* vim: set ts=4 sw=4 expandtab autoindent cindent cino={.5s,(0: */
+diff --git a/src/ply-boot-server.c b/src/ply-boot-server.c
+index 29f402e..6e39f86 100644
+--- a/src/ply-boot-server.c
++++ b/src/ply-boot-server.c
+@@ -197,21 +197,34 @@ ply_boot_connection_on_password_answer (ply_boot_connection_t *connection,
+ 
+   size_t size;
+ 
+-  /* FIXME: support up to 4 billion
++  /* splash plugin isn't able to ask for password,
++   * punt to client
+    */
+-  if (strlen (password) > 255)
+-    ply_error ("password to long to fit in buffer");
+-
+-  size = (uint8_t) strlen (password);
+-
+-  if (!ply_write (connection->fd,
+-                  PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ANSWER,
+-                  strlen (PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ANSWER)) ||
+-      !ply_write (connection->fd,
+-                  &size, sizeof (uint8_t)) ||
+-      !ply_write (connection->fd,
+-                  password, size))
+-    ply_error ("could not write bytes: %m");
++  if (password == NULL)
++    {
++      if (!ply_write (connection->fd,
++                      PLY_BOOT_PROTOCOL_RESPONSE_TYPE_NO_ANSWER,
++                      strlen (PLY_BOOT_PROTOCOL_RESPONSE_TYPE_NO_ANSWER)))
++        ply_error ("could not write bytes: %m");
++    }
++  else
++    {
++      /* FIXME: support up to 4 billion
++      */
++      if (strlen (password) > 255)
++          ply_error ("password to long to fit in buffer");
++
++      size = (uint8_t) strlen (password);
++
++      if (!ply_write (connection->fd,
++                      PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ANSWER,
++                      strlen (PLY_BOOT_PROTOCOL_RESPONSE_TYPE_ANSWER)) ||
++          !ply_write (connection->fd,
++                      &size, sizeof (uint8_t)) ||
++          !ply_write (connection->fd,
++                      password, size))
++          ply_error ("could not write bytes: %m");
++    }
+ 
+   ply_answer_free (answer);
+ }
+diff --git a/src/ply-boot-splash.c b/src/ply-boot-splash.c
+index 8ccaf6c..3fd6331 100644
+--- a/src/ply-boot-splash.c
++++ b/src/ply-boot-splash.c
+@@ -226,7 +226,7 @@ ply_boot_splash_ask_for_password (ply_boot_splash_t *splash,
+ 
+   if (splash->plugin_interface->ask_for_password == NULL)
+     {
+-      ply_answer_with_string (answer, "");
++      ply_answer_unknown (answer);
+       return;
+     }
+ 
+diff --git a/src/splash-plugins/details/plugin.c b/src/splash-plugins/details/plugin.c
+index 3bfb14d..ae52b15 100644
+--- a/src/splash-plugins/details/plugin.c
++++ b/src/splash-plugins/details/plugin.c
+@@ -56,6 +56,10 @@
+ #define CLEAR_LINE_SEQUENCE "\033[2K\r\n"
+ #define BACKSPACE "\b\033[0K"
+ 
++void ask_for_password (ply_boot_splash_plugin_t *plugin,
++                       ply_answer_t             *answer);
++
++ply_boot_splash_plugin_interface_t *ply_boot_splash_plugin_get_interface (void);
+ struct _ply_boot_splash_plugin
+ {
+   ply_event_loop_t *loop;
+@@ -136,17 +140,26 @@ show_splash_screen (ply_boot_splash_plugin_t *plugin,
+ 
+   assert (plugin != NULL);
+ 
+-  ply_window_set_mode (window, PLY_WINDOW_MODE_TEXT);
++  if (window != NULL)
++    {
++      ply_boot_splash_plugin_interface_t *interface;
++
++      ply_window_set_mode (window, PLY_WINDOW_MODE_TEXT);
+ 
+-  ply_window_set_keyboard_input_handler (window,
+-                                         (ply_window_keyboard_input_handler_t)
+-                                         on_keyboard_input, plugin);
+-  ply_window_set_backspace_handler (window,
+-                                    (ply_window_backspace_handler_t)
+-                                    on_backspace, plugin);
+-  ply_window_set_enter_handler (window,
+-                                (ply_window_enter_handler_t)
+-                                on_enter, plugin);
++      ply_window_set_keyboard_input_handler (window,
++                                             (ply_window_keyboard_input_handler_t)
++                                             on_keyboard_input, plugin);
++      ply_window_set_backspace_handler (window,
++                                        (ply_window_backspace_handler_t)
++                                        on_backspace, plugin);
++      ply_window_set_enter_handler (window,
++                                    (ply_window_enter_handler_t)
++                                    on_enter, plugin);
++
++      interface = ply_boot_splash_plugin_get_interface ();
++
++      interface->ask_for_password = ask_for_password;
++    }
+ 
+   plugin->loop = loop;
+ 
+@@ -223,7 +236,6 @@ ply_boot_splash_plugin_get_interface (void)
+       .update_status = update_status,
+       .on_boot_output = on_boot_output,
+       .hide_splash_screen = hide_splash_screen,
+-      .ask_for_password = ask_for_password,
+     };
+ 
+   return &plugin_interface;
