@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 17.2008.08.13%{?dist}
+Release: 18.2008.08.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -166,6 +166,7 @@ fi
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
 %{_localstatedir}/run/plymouth
+%{_localstatedir}/spool/plymouth
 
 %files devel
 %defattr(-, root, root)
@@ -205,6 +206,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-18.2008.08.13
+- add spool directory to file list
+
 * Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-17.2008.08.13
 - Make plymouth-gdm-hooks require plymouth-utils
 
