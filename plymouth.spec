@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.5.0
-Release: 16.2008.08.13%{?dist}
+Release: 17.2008.08.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -56,6 +56,7 @@ including a boot log viewing application.
 Summary: Plymouth GDM integration
 Group: Applications/System
 Requires: gdm >= 1:2.22.0
+Requires: plymouth-utils
 Requires: %{name} = %{version}-%{release}
 
 %description gdm-hooks
@@ -204,6 +205,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-17.2008.08.13
+- Make plymouth-gdm-hooks require plymouth-utils
+
 * Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-16.2008.08.13
 - Add a boot failure viewer to login screen (written by Matthias)
 
