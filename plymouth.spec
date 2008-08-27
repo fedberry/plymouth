@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.08.22%{?dist}
+Release: 0.2008.08.27%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -206,6 +206,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.28
+- Update to latest snapshot
+- Add the ability to show text prompts in graphical plugin
+- Fix crasher for users with encrypted disks
+
 * Fri Aug 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.22
 - Update to latest snapshot
 

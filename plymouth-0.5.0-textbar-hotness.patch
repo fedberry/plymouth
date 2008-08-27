@@ -165,8 +165,8 @@ diff -up plymouth-0.5.0/src/libplybootsplash/ply-text-pulser.h.jx plymouth-0.5.0
  
  int ply_text_pulser_get_number_of_rows (ply_text_pulser_t *pulser);
 diff -up plymouth-0.5.0/src/splash-plugins/text/plugin.c.jx plymouth-0.5.0/src/splash-plugins/text/plugin.c
---- plymouth-0.5.0/src/splash-plugins/text/plugin.c.jx	2008-07-29 15:15:51.000000000 -0400
-+++ plymouth-0.5.0/src/splash-plugins/text/plugin.c	2008-08-12 12:36:51.000000000 -0400
+--- plymouth-0.5.0/src/plugins/splash/text/plugin.c.jx	2008-07-29 15:15:51.000000000 -0400
++++ plymouth-0.5.0/src/plugins/splash/text/plugin.c	2008-08-12 12:36:51.000000000 -0400
 @@ -105,28 +105,33 @@ start_animation (ply_boot_splash_plugin_
    assert (plugin->loop != NULL);
  
