@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.08.27%{?dist}
+Release: 0.2008.08.27.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -9,6 +9,7 @@ URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0: plymouth-0.5.0-textbar-hotness.patch
+Patch1: fix-text-plugin-crasher.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
@@ -106,6 +107,7 @@ spins in the shape of an infinity sign.
 %prep
 %setup -q
 %patch0 -p1 -b .textbar
+%patch1 -p1 -b .fix-text-plugin-crasher
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -226,7 +228,11 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
-* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.28
+* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.27.1
+- Fix another crasher for users with encrypted disks (this time in
+  the text plugin, not the client)
+
+* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.27
 - Update to latest snapshot
 - Add the ability to show text prompts in graphical plugin
 - Fix crasher for users with encrypted disks
