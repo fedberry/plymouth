@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0: plymouth-0.5.0-textbar-hotness.patch
 Patch1: fix-text-plugin-crasher.patch
-Patch2: fix-text-plugin-crasher.patch
+Patch2: escape-sends-empty-password.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
