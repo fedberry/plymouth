@@ -64,6 +64,19 @@ This package contains support files for integrating Plymouth with GDM
 Namely, it adds hooks to show boot messages at the login screen in the
 event start-up services fail.
 
+%package plugin-label
+Summary: Plymouth label plugin
+Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
+Requires(post): %{name}
+BuildRequires: pango-devel
+BuildRequires: cairo-devel
+
+%description plugin-label
+This package contains the label control plugin for
+Plymouth. It provides the ability to render text on
+graphical boot splashes using pango and cairo.
+
 %package plugin-fade-in
 Summary: Plymouth "Fade-In" plugin
 Group: System Environment/Base
@@ -80,6 +93,7 @@ while stars twinkle around the logo during system boot up.
 Summary: Plymouth "Spinfinity" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
+Requires: plymouth-plugin-label
 Requires(post): %{name}
 BuildRequires: libpng-devel
 Provides: system-plymouth-plugin = %{version}-%{release}
@@ -181,10 +195,16 @@ fi
 %{_libdir}/libplybootsplash.so.*
 
 %files utils
+%defattr(-, root, root)
 %{_bindir}/plymouth-log-viewer
 
 %files gdm-hooks
+%defattr(-, root, root)
 %{_datadir}/gdm/autostart/LoginWindow/plymouth-log-viewer.desktop
+
+%files plugin-label
+%defattr(-, root, root)
+%{_libdir}/plymouth/label.so
 
 %files plugin-fade-in
 %defattr(-, root, root)
