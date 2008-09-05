@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.09.05.1%{?dist}
+Release: 0.2008.09.05.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -226,6 +226,10 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.2
+- Try to support multiple serial consoles better
+  (bug 460565)
+
 * Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.1
 - Fix some confusion with password handling in details plugin
 
