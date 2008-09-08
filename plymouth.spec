@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.09.05.3%{?dist}
+Release: 0.2008.09.05.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -9,6 +9,7 @@ URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0: plymouth-0.5.0-textbar-hotness.patch
+Patch1: serial-again.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
@@ -106,6 +107,7 @@ spins in the shape of an infinity sign.
 %prep
 %setup -q
 %patch0 -p1 -b .textbar
+%patch1 -p1 -b .serial-again
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -226,6 +228,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Mon Sep  8 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.4
+- More serial console fixes (bug 460565 again)
+
 * Fri Sep  5 2008 Bill Nottingham <notting@redhat.com> 0.6.0-0.2008.09.05.3
 - make the text plugin use the system release info rather than a hardcoded 'Fedora 10'
 
