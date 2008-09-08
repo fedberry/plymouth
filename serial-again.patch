@@ -15,7 +15,7 @@ index 71508c4..ca5f21c 100644
 -        *end = '\0';
 +        {
 +          *end = '\0';
-+          remaining_command_line += end - console;
++          remaining_command_line += end - state->console;
 +        }
      }
  }
