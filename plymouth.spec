@@ -9,7 +9,6 @@ URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Patch0: plymouth-0.5.0-textbar-hotness.patch
-Patch1: serial-again.patch
 
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
@@ -107,7 +106,6 @@ spins in the shape of an infinity sign.
 %prep
 %setup -q
 %patch0 -p1 -b .textbar
-%patch1 -p1 -b .serial-again
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
