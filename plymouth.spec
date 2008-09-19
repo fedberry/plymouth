@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.09.15.1%{?dist}
+Release: 0.2008.09.15.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -113,7 +113,8 @@ spins in the shape of an infinity sign.
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
            --with-background-start-color-stop=0x0073B3           \
            --with-background-end-color-stop=0x00457E             \
-           --with-background-color=0x3391cd
+           --with-background-color=0x3391cd                      \
+           --enable-gdm-transition
 
 make
 
@@ -226,6 +227,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Fri Sep 19 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.15.2
+- Turn on gdm trigger for transition
+
 * Mon Sep 15 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.15.1
 - add quit command with --retain-splash option to client
 
