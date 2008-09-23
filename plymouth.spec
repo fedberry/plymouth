@@ -1,7 +1,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.09.22.1%{?dist}
+Release: 0.2008.09.23.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -227,6 +227,9 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
+* Tue Sep 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.23.1
+- Last snapshot was broken
+
 * Mon Sep 22 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.22.1
 - Update to latest snapshot to get better transition support
 
