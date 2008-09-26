@@ -87,6 +87,18 @@ This package contains the "Fade-In" boot splash plugin for
 Plymouth. It features a centered logo that fades in and out
 while stars twinkle around the logo during system boot up.
 
+%package plugin-pulser
+Summary: Plymouth "Pulser" plugin
+Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
+Requires(post): %{name}
+BuildRequires: libpng-devel
+
+%description plugin-pulser
+This package contains the "Pulser" boot splash plugin for
+Plymouth. It features a pulsing text progress indicator
+centered in the screen during system boot up.
+
 %package plugin-spinfinity
 Summary: Plymouth "Spinfinity" plugin
 Group: System Environment/Base
@@ -214,6 +226,10 @@ fi
 %{_datadir}/plymouth/fade-in/star.png
 %{_libdir}/plymouth/fade-in.so
 
+%files plugin-pulser
+%defattr(-, root, root)
+%{_libdir}/plymouth/pulser.so
+
 %files plugin-spinfinity
 %defattr(-, root, root)
 %dir %{_datadir}/plymouth/spinfinity
@@ -227,7 +243,8 @@ fi
 %changelog
 * Thu Sep 25 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.25.1
 - Add new snapshot to fold in Will Woods progress bar, and
-  move ajax's splash upstream
+  move ajax's splash upstream, putting the old text splash
+  in a "pulser" subpackage
 
 * Tue Sep 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.23.1
 - Last snapshot was broken
