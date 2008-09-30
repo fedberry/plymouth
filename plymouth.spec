@@ -240,7 +240,7 @@ fi
 %{_libdir}/plymouth/spinfinity.so
 
 %changelog
-* Tue Sep 30 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.25.2
+* Tue Sep 30 2008 Jeremy Katz <katzj@redhat.com> 0.5.0-0.2008.09.25.2
 - Remove mkinitrd requires to break the dep loop and ensure things
   get installed in the right order
 
