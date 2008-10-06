@@ -1,7 +1,11 @@
+%define plymouthdaemon_execdir /sbin
+%define plymouthclient_execdir /bin
+%define plymouth_libdir /%{_lib}
+
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.09.25.2%{?dist}
+Release: 0.2008.10.06.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -112,6 +116,19 @@ This package contains the "Spinfinity" boot splash plugin for
 Plymouth. It features a centered logo and animated spinner that
 spins in the shape of an infinity sign.
 
+%package plugin-solar
+Summary: Plymouth "Solar" plugin
+Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
+Requires: plymouth-plugin-label
+Requires(post): %{name}
+BuildRequires: libpng-devel
+Provides: system-plymouth-plugin = %{version}-%{release}
+
+%description plugin-solar
+This package contains the "Solar" boot splash plugin for
+Plymouth. It features a blue flamed sun with animated solar flares.
+
 %prep
 %setup -q
 
@@ -122,7 +139,9 @@ spins in the shape of an infinity sign.
            --with-background-start-color-stop=0x0073B3           \
            --with-background-end-color-stop=0x00457E             \
            --with-background-color=0x3391cd                      \
-           --enable-gdm-transition
+           --enable-gdm-transition                               \
+           --with-system-root-install                            \
+           --with-rhgb-compat-link
 
 make
 
@@ -133,6 +152,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} \;
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
+
+# Temporary symlink until rc.sysinit is fixed
+(cd $RPM_BUILD_ROOT%{_bindir}; ln -s ../../bin/plymouth)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -180,7 +202,8 @@ fi
 %dir %{_datadir}/plymouth
 %dir %{_libexecdir}/plymouth
 %dir %{_libdir}/plymouth
-%{_libexecdir}/plymouth/plymouthd
+%{plymouthdaemon_execdir}/plymouthd
+%{plymouthclient_execdir}/plymouth
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
 %{_sbindir}/plymouth-set-default-plugin
@@ -194,14 +217,14 @@ fi
 
 %files devel
 %defattr(-, root, root)
-%{_libdir}/libply.so
+%{plymouth_libdir}/libply.so
 %{_libdir}/libplybootsplash.so
 %{_libdir}/pkgconfig/plymouth-1.pc
 %{_includedir}/plymouth-1
 
 %files libs
 %defattr(-, root, root)
-%{_libdir}/libply.so.*
+%{plymouth_libdir}/libply.so.*
 %{_libdir}/libplybootsplash.so.*
 
 %files utils
@@ -239,7 +262,26 @@ fi
 %{_datadir}/plymouth/spinfinity/throbber-[0-3][0-9].png
 %{_libdir}/plymouth/spinfinity.so
 
+%files plugin-solar
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/solar
+%{_datadir}/plymouth/solar/background.png
+%{_datadir}/plymouth/solar/box.png
+%{_datadir}/plymouth/solar/bullet.png
+%{_datadir}/plymouth/solar/comet1.png
+%{_datadir}/plymouth/solar/entry.png
+%{_datadir}/plymouth/solar/lock.png
+%{_datadir}/plymouth/solar/planet[1-5].png
+%{_datadir}/plymouth/solar/star.png
+%{_libdir}/plymouth/solar.so
+
 %changelog
+* Mon Oct 06 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.06.1
+- Add "Solar" plugin from Charles Brej
+- Move things around so computers with separate /usr boot
+  (hopefully this won't break things, but it probably will)
+- Make GDM show up on vt1 for all plugins
+
 * Tue Sep 30 2008 Jeremy Katz <katzj@redhat.com> 0.5.0-0.2008.09.25.2
 - Remove mkinitrd requires to break the dep loop and ensure things
   get installed in the right order
