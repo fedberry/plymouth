@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.06.1%{?dist}
+Release: 0.2008.10.08.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -276,6 +276,10 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Wed Oct 08 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.08.1
+- Rework how "console=" args done again, to hopefully fix
+  bug 460565
+
 * Mon Oct 06 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.06.1
 - Add "Solar" plugin from Charles Brej
 - Move things around so computers with separate /usr boot
