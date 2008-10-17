@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.15.1%{?dist}
+Release: 0.2008.10.15.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -70,7 +70,6 @@ event start-up services fail.
 Summary: Plymouth label plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires(post): %{name}
 BuildRequires: pango-devel
 BuildRequires: cairo-devel
 
@@ -83,7 +82,7 @@ graphical boot splashes using pango and cairo.
 Summary: Plymouth "Fade-In" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires(post): %{name}
+Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
 
 %description plugin-fade-in
@@ -95,7 +94,7 @@ while stars twinkle around the logo during system boot up.
 Summary: Plymouth "Pulser" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires(post): %{name}
+Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
 
 %description plugin-pulser
@@ -108,8 +107,8 @@ Summary: Plymouth "Spinfinity" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: plymouth-plugin-label
-Requires(post): %{name}
 BuildRequires: libpng-devel
+Requires(post): %{_sbindir}/plymouth-set-default-plugin
 Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description plugin-spinfinity
@@ -122,9 +121,8 @@ Summary: Plymouth "Solar" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: plymouth-plugin-label
-Requires(post): %{name}
+Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
-Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description plugin-solar
 This package contains the "Solar" boot splash plugin for
@@ -185,14 +183,23 @@ if [ $1 -eq 0 ]; then
     fi
 fi
 
-%post plugin-fade-in
-#if [ $1 -eq 1 ]; then
-#    %{_sbindir}/plymouth-set-default-plugin fade-in
-#fi
-
 %postun plugin-fade-in
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "fade-in" ]; then
+        %{_sbindir}/plymouth-set-default-plugin --reset
+    fi
+fi
+
+%postun plugin-solar
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
+        %{_sbindir}/plymouth-set-default-plugin --reset
+    fi
+fi
+
+%postun plugin-pulser
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "pulser" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
     fi
 fi
@@ -207,7 +214,6 @@ fi
 %{plymouthclient_execdir}/plymouth
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
-%{_sbindir}/plymouth-set-default-plugin
 %{_bindir}/plymouth
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
@@ -227,6 +233,7 @@ fi
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so.*
 %{_libdir}/libplybootsplash.so.*
+%{_sbindir}/plymouth-set-default-plugin
 
 %files utils
 %defattr(-, root, root)
@@ -270,6 +277,10 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.2
+- Move plymouth-set-default-plugin to -libs (might help with bug 467356)
+- Fix up requires, provides and postun scripts
+
 * Wed Oct 15 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.1
 - Don't free windows on --hide-splash (fix from Jeremy)
 
