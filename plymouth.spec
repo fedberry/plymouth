@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.15.3%{?dist}
+Release: 0.2008.10.17.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -289,6 +289,11 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.1
+- Clear screen in details plugin when it's done
+- Make plymouth-update-initrd a small wrapper around mkinitrd instead
+  of the broken monstrosity it was before.
+
 * Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.3
 - Move plymouth-set-default-plugin, plymouth-update-initrd, and
   plymouth-populate-initrd to plymouth-scripts subpackage
