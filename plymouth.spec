@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.15.2%{?dist}
+Release: 0.2008.10.15.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -53,6 +53,14 @@ BuildRequires: gtk2-devel
 %description utils
 This package contains utilities that integrate with Plymouth
 including a boot log viewing application.
+
+%package scripts
+Summary: Plymouth related scripts
+Group: Applications/System
+
+%description scripts
+This package contains scripts that help integrate Plymouth with
+the system.
 
 %package gdm-hooks
 Summary: Plymouth GDM integration
@@ -212,8 +220,6 @@ fi
 %dir %{_libdir}/plymouth
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
-%{_libexecdir}/plymouth/plymouth-update-initrd
-%{_libexecdir}/plymouth/plymouth-populate-initrd
 %{_bindir}/plymouth
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
@@ -233,7 +239,12 @@ fi
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so.*
 %{_libdir}/libplybootsplash.so.*
+
+%files scripts
+%defattr(-, root, root)
 %{_sbindir}/plymouth-set-default-plugin
+%{_libexecdir}/plymouth/plymouth-update-initrd
+%{_libexecdir}/plymouth/plymouth-populate-initrd
 
 %files utils
 %defattr(-, root, root)
@@ -277,6 +288,11 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.3
+- Move plymouth-set-default-plugin, plymouth-update-initrd, and
+  plymouth-populate-initrd to plymouth-scripts subpackage
+  (the last fix didn't actually help with bug 467356)
+
 * Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.2
 - Move plymouth-set-default-plugin to -libs (might help with bug 467356)
 - Fix up requires, provides and postun scripts
