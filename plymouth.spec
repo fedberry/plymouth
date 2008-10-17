@@ -17,7 +17,7 @@ Provides: rhgb = 1:10.0.0
 
 Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
-Requires(post): nash
+Requires(post): plymouth-scripts
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -57,6 +57,7 @@ including a boot log viewing application.
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
+Requires: nash
 
 %description scripts
 This package contains scripts that help integrate Plymouth with
