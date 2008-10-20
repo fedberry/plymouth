@@ -1,0 +1,23 @@
+commit ea15d24f3ee82aab3981c2516e09831a7176460c
+Author: Ray Strode <rstrode@redhat.com>
+Date:   Mon Oct 20 16:51:35 2008 -0400
+
+    At exit do on_hide_splash not ply_boot_splash_hide
+    
+    Calling just ply_boot_splash_hide meant that the
+    terminal wasn't getting reset properly causing
+    tty1 to misbehave.
+
+diff --git a/src/main.c b/src/main.c
+index d37c1b0..f35178a 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -373,7 +373,7 @@ on_quit (state_t *state,
+   if (state->boot_splash != NULL)
+     {
+       if (!retain_splash)
+-        ply_boot_splash_hide (state->boot_splash);
++        on_hide_splash (state);
+       ply_boot_splash_free (state->boot_splash);
+       state->boot_splash = NULL;
+     }
