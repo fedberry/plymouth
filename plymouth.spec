@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.17.4%{?dist}
+Release: 0.2008.10.21.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -19,8 +19,6 @@ Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
-
-Patch0: plymouth-0.6.0-fix-tty1-on-runlevel3.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -141,7 +139,6 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-tty1-on-runlevel3
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -292,6 +289,11 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.1
+- Minor event loop changes
+- drop upstream patches
+- Charlie Brej fix for progress bar resetting when escape gets pressed
+
 * Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.4
 - Don't make plymouth-libs require plymouth (more fun with 467356)
 
