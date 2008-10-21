@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.17.3%{?dist}
+Release: 0.2008.10.17.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -31,7 +31,6 @@ after boot.
 %package libs
 Summary: Plymouth libraries
 Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
 
 %description libs
 This package contains the libply and libplybootsplash libraries
@@ -293,6 +292,9 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.4
+- Don't make plymouth-libs require plymouth (more fun with 467356)
+
 * Mon Oct 20 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.3
 - Add initscripts requires (bug 461322)
 
