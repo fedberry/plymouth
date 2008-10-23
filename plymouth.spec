@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.21.1%{?dist}
+Release: 0.2008.10.21.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -136,6 +136,17 @@ BuildRequires: libpng-devel
 %description plugin-solar
 This package contains the "Solar" boot splash plugin for
 Plymouth. It features a blue flamed sun with animated solar flares.
+
+%package text-and-details-only
+Summary: Plymouth base plugin set
+Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
+Provides: system-plymouth-plugin = %{version}-%{release}
+
+%description text-and-details-only
+This package enables users to remove the default graphical plugin
+from their system.  This is useful for embedded devices or servers
+where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
@@ -289,6 +300,10 @@ fi
 %{_libdir}/plymouth/solar.so
 
 %changelog
+* Wed Oct 22 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.2
+- add text-and-details-only subpackage so davej can uninstall
+  spinfinity, pango, cairo etc from his router.
+
 * Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.1
 - Minor event loop changes
 - drop upstream patches
