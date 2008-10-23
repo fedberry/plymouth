@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.21.3%{?dist}
+Release: 0.2008.10.23.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -303,6 +303,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.23.1
+- Add patch from Charliie to align progress bar to milestones during boot up
+- force tty to be sane on exit (bug 467207)
+
 * Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.3
 - add empty files section for text-and-details-only so the subpackage
   shows up.
