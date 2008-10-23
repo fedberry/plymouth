@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.21.2%{?dist}
+Release: 0.2008.10.21.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -299,7 +299,14 @@ fi
 %{_datadir}/plymouth/solar/*.png
 %{_libdir}/plymouth/solar.so
 
+%files text-and-details-only
+%defattr(-, root, root)
+
 %changelog
+* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.3
+- add empty files section for text-and-details-only so the subpackage
+  shows up.
+
 * Wed Oct 22 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.2
 - add text-and-details-only subpackage so davej can uninstall
   spinfinity, pango, cairo etc from his router.
