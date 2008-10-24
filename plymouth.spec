@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.23.1%{?dist}
+Release: 0.2008.10.23.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -303,114 +303,119 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.23.1
-- Add patch from Charliie to align progress bar to milestones during boot up
+* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.23.2
+- Bump so name of libply to hopefully force plymouth to get installed
+  before kernel (or at least make plymouth-libs and plymouth get installed
+  on the same side of kernel in the transaction).
+
+* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.23.1
+- Add patch from Charlie to align progress bar to milestones during boot up
 - force tty to be sane on exit (bug 467207)
 
-* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.3
+* Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.21.3
 - add empty files section for text-and-details-only so the subpackage
   shows up.
 
-* Wed Oct 22 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.2
+* Wed Oct 22 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.21.2
 - add text-and-details-only subpackage so davej can uninstall
   spinfinity, pango, cairo etc from his router.
 
-* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.21.1
+* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.21.1
 - Minor event loop changes
 - drop upstream patches
 - Charlie Brej fix for progress bar resetting when escape gets pressed
 
-* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.4
+* Tue Oct 21 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.17.4
 - Don't make plymouth-libs require plymouth (more fun with 467356)
 
-* Mon Oct 20 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.3
+* Mon Oct 20 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.17.3
 - Add initscripts requires (bug 461322)
 
-* Mon Oct 20 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.2
+* Mon Oct 20 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.17.2
 - Put tty1 back in "cooked" mode when going into runlevel 3
   (bug 467207)
 
-* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.17.1
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.17.1
 - Clear screen in details plugin when it's done
 - Make plymouth-update-initrd a small wrapper around mkinitrd instead
   of the broken monstrosity it was before.
 
-* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.3
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.15.3
 - Move plymouth-set-default-plugin, plymouth-update-initrd, and
   plymouth-populate-initrd to plymouth-scripts subpackage
   (the last fix didn't actually help with bug 467356)
 
-* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.2
+* Fri Oct 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.15.2
 - Move plymouth-set-default-plugin to -libs (might help with bug 467356)
 - Fix up requires, provides and postun scripts
 
-* Wed Oct 15 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.15.1
+* Wed Oct 15 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.15.1
 - Don't free windows on --hide-splash (fix from Jeremy)
 
-* Tue Oct 14 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.14.1
+* Tue Oct 14 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.14.1
 - Solar fixes from Charlie Brej
 - Better cpu usage from Charlie
 
-* Fri Oct 10 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.08.2
+* Fri Oct 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.08.2
 - Add Requires(post): nash (bug 466500)
 
-* Wed Oct 08 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.08.1
+* Wed Oct 08 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.08.1
 - Rework how "console=" args done again, to hopefully fix
   bug 460565
 
-* Mon Oct 06 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.10.06.1
+* Mon Oct 06 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.06.1
 - Add "Solar" plugin from Charles Brej
 - Move things around so computers with separate /usr boot
   (hopefully this won't break things, but it probably will)
 - Make GDM show up on vt1 for all plugins
 
-* Tue Sep 30 2008 Jeremy Katz <katzj@redhat.com> 0.5.0-0.2008.09.25.2
+* Tue Sep 30 2008 Jeremy Katz <katzj@redhat.com> 0.6.0-0.2008.09.25.2
 - Remove mkinitrd requires to break the dep loop and ensure things
   get installed in the right order
 
-* Thu Sep 25 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.25.1
+* Thu Sep 25 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.25.1
 - Add new snapshot to fold in Will Woods progress bar, and
   move ajax's splash upstream, putting the old text splash
   in a "pulser" subpackage
 
-* Tue Sep 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.23.1
+* Tue Sep 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.23.1
 - Last snapshot was broken
 
-* Mon Sep 22 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.22.1
+* Mon Sep 22 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.22.1
 - Update to latest snapshot to get better transition support
 
-* Fri Sep 19 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.15.2
+* Fri Sep 19 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.15.2
 - Turn on gdm trigger for transition
 
-* Mon Sep 15 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.15.1
+* Mon Sep 15 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.15.1
 - add quit command with --retain-splash option to client
 
-* Wed Sep 10 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.10.1
+* Wed Sep 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.10.1
 - Fix text rendering for certain machines
 
-* Mon Sep  8 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.4
+* Mon Sep  8 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.05.4
 - More serial console fixes (bug 460565 again)
 
 * Fri Sep  5 2008 Bill Nottingham <notting@redhat.com> 0.6.0-0.2008.09.05.3
 - make the text plugin use the system release info rather than a hardcoded 'Fedora 10'
 
-* Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.2
+* Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.05.2
 - Try to support multiple serial consoles better
   (bug 460565)
 
-* Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.09.05.1
+* Fri Sep  5 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.09.05.1
 - Fix some confusion with password handling in details plugin
 
-* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.27.1
+* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.08.27.1
 - Fix another crasher for users with encrypted disks (this time in
   the text plugin, not the client)
 
-* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.27
+* Wed Aug 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.08.27
 - Update to latest snapshot
 - Add the ability to show text prompts in graphical plugin
 - Fix crasher for users with encrypted disks
 
-* Fri Aug 23 2008 Ray Strode <rstrode@redhat.com> 0.5.0-0.2008.08.22
+* Fri Aug 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.08.22
 - Update to latest snapshot
 
 * Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-20.2008.08.13
