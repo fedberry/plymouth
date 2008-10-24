@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.23.2%{?dist}
+Release: 0.2008.10.24.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -303,6 +303,11 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Oct 24 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.24.1
+- Add updated progress bar for solar plugin from Charlie
+- Log plymouth:debug output to boot log
+- Ignore sigpipe signals in daemon
+
 * Thu Oct 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.23.2
 - Bump so name of libply to hopefully force plymouth to get installed
   before kernel (or at least make plymouth-libs and plymouth get installed
