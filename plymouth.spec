@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.24.1%{?dist}
+Release: 0.2008.10.24.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -78,7 +78,7 @@ event start-up services fail.
 %package plugin-label
 Summary: Plymouth label plugin
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 BuildRequires: pango-devel
 BuildRequires: cairo-devel
 
@@ -90,7 +90,7 @@ graphical boot splashes using pango and cairo.
 %package plugin-fade-in
 Summary: Plymouth "Fade-In" plugin
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
 
@@ -102,7 +102,7 @@ while stars twinkle around the logo during system boot up.
 %package plugin-pulser
 Summary: Plymouth "Pulser" plugin
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
 
@@ -114,7 +114,7 @@ centered in the screen during system boot up.
 %package plugin-spinfinity
 Summary: Plymouth "Spinfinity" plugin
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 BuildRequires: libpng-devel
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
@@ -128,7 +128,7 @@ spins in the shape of an infinity sign.
 %package plugin-solar
 Summary: Plymouth "Solar" plugin
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
@@ -140,7 +140,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 %package text-and-details-only
 Summary: Plymouth base plugin set
 Group: System Environment/Base
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}-libs = %{version}-%{release}
 Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description text-and-details-only
@@ -303,6 +303,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sun Oct 26 2008 Jeremy Katz <katzj@redhat.com> - 0.6.0-0.2008.10.24.2
+- More requires changing to avoid loops (#467356)
+
 * Fri Oct 24 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.24.1
 - Add updated progress bar for solar plugin from Charlie
 - Log plymouth:debug output to boot log
