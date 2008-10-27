@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.27.1%{?dist}
+Release: 0.2008.10.27.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -183,11 +183,6 @@ if [ $1 -eq 0 ]; then
     rm -f %{_libdir}/plymouth/default.so
 fi
 
-%post
-if [ $1 -eq 1 ]; then
-    %{_sbindir}/plymouth-set-default-plugin text
-fi
-
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
@@ -303,6 +298,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.2
+- Don't set plymouth default plugin to text in %%post
+
 * Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.1
 - Add Charlie patch to dither in lower color modes (bug 468276)
 
