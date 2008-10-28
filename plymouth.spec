@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.27.2%{?dist}
+Release: 0.2008.10.27.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -118,7 +118,6 @@ Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 BuildRequires: libpng-devel
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
-Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description plugin-spinfinity
 This package contains the "Spinfinity" boot splash plugin for
@@ -132,6 +131,7 @@ Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
+Provides: system-plymouth-plugin = %{version}-%{release}
 
 %description plugin-solar
 This package contains the "Solar" boot splash plugin for
@@ -186,15 +186,10 @@ fi
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
-%post plugin-spinfinity
-if [ $1 -eq 1 ]; then
-    %{_sbindir}/plymouth-set-default-plugin spinfinity
-fi
-
 %postun plugin-spinfinity
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
-        %{_sbindir}/plymouth-set-default-plugin text
+        %{_sbindir}/plymouth-set-default-plugin --reset
     fi
 fi
 
@@ -205,10 +200,15 @@ if [ $1 -eq 0 ]; then
     fi
 fi
 
+%post plugin-solar
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin solar
+fi
+
 %postun plugin-solar
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
+        %{_sbindir}/plymouth-set-default-plugin text
     fi
 fi
 
@@ -298,6 +298,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.3
+- Default to "Solar" instead of "Spinfinity"
+
 * Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.2
 - Don't set plymouth default plugin to text in %%post
 
