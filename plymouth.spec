@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.27.3%{?dist}
+Release: 0.2008.10.27.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -224,7 +224,6 @@ fi
 %doc AUTHORS NEWS README
 %dir %{_datadir}/plymouth
 %dir %{_libexecdir}/plymouth
-%dir %{_libdir}/plymouth
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
 %{_bindir}/plymouth
@@ -246,6 +245,7 @@ fi
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so.*
 %{_libdir}/libplybootsplash.so.*
+%dir %{_libdir}/plymouth
 
 %files scripts
 %defattr(-, root, root)
@@ -298,6 +298,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.4
+- Make plymouth-libs own /usr/lib/plymouth (bug 458071)
+
 * Mon Oct 27 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.3
 - Default to "Solar" instead of "Spinfinity"
 
