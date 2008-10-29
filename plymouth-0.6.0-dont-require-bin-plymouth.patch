@@ -1,0 +1,12 @@
+diff -up plymouth-0.6.0/scripts/plymouth-set-default-plugin.in.dont-require-bin-plymouth plymouth-0.6.0/scripts/plymouth-set-default-plugin.in
+--- plymouth-0.6.0/scripts/plymouth-set-default-plugin.in.dont-require-bin-plymouth	2008-10-28 19:55:56.000000000 -0400
++++ plymouth-0.6.0/scripts/plymouth-set-default-plugin.in	2008-10-28 19:57:10.000000000 -0400
+@@ -4,7 +4,7 @@ set -e
+ 
+ [ -z "$LIBEXECDIR" ] && LIBEXECDIR="/usr/libexec"
+ [ -z "$DATADIR" ] && DATADIR="/usr/share"
+-[ -z "$LIB" ] && $(echo nash-showelfinterp @plymouthclientdir@/plymouth | /sbin/nash --forcequiet | grep -q lib64) && LIB="lib64" || LIB="lib"
++[ -z "$LIB" ] && $(echo nash-showelfinterp /proc/$$/exe | /sbin/nash --forcequiet | grep -q lib64) && LIB="lib64" || LIB="lib"
+ [ -z "$LIBDIR" ] && LIBDIR="/usr/$LIB"
+ [ -z "$BINDIR" ] && BINDIR="/usr/bin"
+ 
