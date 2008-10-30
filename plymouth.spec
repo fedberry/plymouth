@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.27.8%{?dist}
+Release: 0.2008.10.30.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -19,10 +19,6 @@ Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
-
-Patch0: plymouth-0.6.0-force-raw-mode.patch
-Patch1: plymouth-0.6.0-dont-require-bin-plymouth.patch
-Patch2: plymouth-0.6.0-fix-escape-at-password-prompt.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -154,9 +150,6 @@ where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
-%patch0 -p1 -b .force-raw-mode
-%patch1 -p1 -b .dont-require-bin-plymouth
-%patch2 -p1 -b .fix-escape-at-password-prompt
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -305,6 +298,12 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Oct 30 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.30.1
+- Drop upstreamed patches
+- Patch from Charlie to update artwork
+- Patch from Charlie to make password screen match animation better
+  (bug 468899)
+
 * Thu Oct 30 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.27.8
 - Fix escape at password prompt (bug 467533)
 
