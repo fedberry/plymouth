@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.30.2%{?dist}
+Release: 0.2008.10.30.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -79,7 +79,7 @@ event start-up services fail.
 Summary: Plymouth label plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
-BuildRequires: pango-devel
+BuildRequires: pango-devel >= 1.21.0
 BuildRequires: cairo-devel
 
 %description plugin-label
@@ -298,6 +298,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Oct 31 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.30.3
+- Add pango minimum version to buildrequires
+
 * Thu Oct 30 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.30.2
 - Update prompt text colors to be legible on new artwork
 
