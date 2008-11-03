@@ -5,10 +5,11 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.10.30.3%{?dist}
+Release: 0.2008.10.30.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
+Patch0: plymouth-allow-passing-plugin.patch
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -150,6 +151,7 @@ where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -298,6 +300,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov  3 2008 Jeremy Katz <katzj@redhat.com> - 0.6.0-0.2008.10.30.4
+- Allow pre-setting the default plugin when calling plymouth-populate-initrd
+
 * Fri Oct 31 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.30.3
 - Add pango minimum version to buildrequires
 
