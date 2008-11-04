@@ -9,6 +9,7 @@ Release: 0.2008.10.30.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
+Source1: boot-duration
 Patch0: plymouth-allow-passing-plugin.patch
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -177,6 +178,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 # Temporary symlink until rc.sysinit is fixed
 (cd $RPM_BUILD_ROOT%{_bindir}; ln -s ../../bin/plymouth)
 
+mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
+cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -235,6 +239,7 @@ fi
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %{_localstatedir}/lib/plymouth
+%verify(not mtime md5) %{_localstatedir}/lib/plymouth/boot-duration
 
 %files devel
 %defattr(-, root, root)
@@ -300,6 +305,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Nov  4 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.10.30.5
+- Add a sample boot-duration for livecds and first time boots
+  (bug 469752)
+
 * Mon Nov  3 2008 Jeremy Katz <katzj@redhat.com> - 0.6.0-0.2008.10.30.4
 - Allow pre-setting the default plugin when calling plymouth-populate-initrd
 
