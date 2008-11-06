@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.05.1%{?dist}
+Release: 0.2008.11.06.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -305,6 +305,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Nov  6 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.1
+- Don't exit on plymouth --show-splash after sulogin
+- Properly retake console after that --show-splash
+
 * Wed Nov  5 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.05.1
 - reset colors on quit --retain-splash
 - fix off by one in damage calculation for label
