@@ -5,12 +5,14 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.06.1%{?dist}
+Release: 0.2008.11.06.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Patch0: plymouth-allow-passing-plugin.patch
+Patch1: plymouth-0.6.0-fix-switchroot-failed.patch
+
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -152,7 +154,8 @@ where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch0 -p1 -b .allow-passing-plugin
+%patch1 -p1 -b .fix-switchroot-failed
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -305,6 +308,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Nov  6 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.2
+- show details plugin on --hide-splash so people can see why the splash
+  got hidden.
+
 * Thu Nov  6 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.1
 - Don't exit on plymouth --show-splash after sulogin
 - Properly retake console after that --show-splash
