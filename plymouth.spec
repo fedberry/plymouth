@@ -311,7 +311,7 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Thu Nov  6 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.3
+* Fri Nov  7 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.3
 - add some more debug spew to help debug a problem jlaska is having
 
 * Thu Nov  6 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.2
