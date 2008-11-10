@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.10.1%{?dist}
+Release: 0.2008.11.10.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -21,10 +21,6 @@ Requires: system-logos >= 9.0.1
 Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
-
-Patch0: plymouth-allow-passing-plugin.patch
-Patch1: plymouth-0.6.0-fix-switchroot-failed.patch
-Patch2: plymouth-0.6.0-more-debug.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -308,6 +304,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.3
+- Don't abort if no splash when root is mounted
+- Actually move patches upstream
+
 * Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.1
 - Fix feedback loop with plymouth:debug
 - Move patches upstream
