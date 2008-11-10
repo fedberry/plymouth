@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.06.4%{?dist}
+Release: 0.2008.11.10.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -311,6 +311,11 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.1
+- Fix feedback loop with plymouth:debug
+- Move patches upstream
+- Improve comet animation
+
 * Sun Nov  9 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.06.4
 - Fix up more-debug patch to not assert with plymouth:nolog
   (bug 470569)
