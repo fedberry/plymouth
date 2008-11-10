@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.10.3%{?dist}
+Release: 0.2008.11.10.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -238,7 +238,7 @@ fi
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %{_localstatedir}/lib/plymouth
-%verify(not mtime md5) %{_localstatedir}/lib/plymouth/boot-duration
+%config(noreplace) %{_localstatedir}/lib/plymouth/boot-duration
 
 %files devel
 %defattr(-, root, root)
@@ -304,6 +304,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.4
+- Drop comet (bug 468705)
+- make boot-duration config(noreplace)
+
 * Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.3
 - Don't abort if no splash when root is mounted
 - Actually move patches upstream
