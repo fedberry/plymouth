@@ -156,9 +156,6 @@ where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
-%patch0 -p1 -b .allow-passing-plugin
-%patch1 -p1 -b .fix-switchroot-failed
-%patch2 -p1 -b .more-debug
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
