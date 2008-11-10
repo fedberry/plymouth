@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.10.4%{?dist}
+Release: 0.2008.11.10.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -192,6 +192,7 @@ fi
 %postun libs -p /sbin/ldconfig
 
 %postun plugin-spinfinity
+export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
@@ -199,6 +200,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %postun plugin-fade-in
+export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
@@ -206,11 +208,13 @@ if [ $1 -eq 0 ]; then
 fi
 
 %post plugin-solar
+export LIB=%{_lib}
 if [ $1 -eq 1 ]; then
     %{_sbindir}/plymouth-set-default-plugin solar
 fi
 
 %postun plugin-solar
+export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-plugin text
@@ -218,6 +222,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %postun plugin-pulser
+export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "pulser" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
@@ -304,6 +309,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.5
+- Force the right arch when calling plymouth-set-default-plugin
+  (bug 470732)
+
 * Mon Nov 10 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.10.4
 - Drop comet (bug 468705)
 - make boot-duration config(noreplace)
