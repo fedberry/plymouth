@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.11.1%{?dist}
+Release: 0.2008.11.11.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -309,6 +309,12 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Nov 11 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.11.2
+- Improve solar flares (Charlie)
+- redirect tty again on --show-splash
+- ignore subsequent --hide-splash calls after the first one
+- turn off kernel printks during boot up
+
 * Tue Nov 11 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.11.1
 - Disconnect from tty when init=/bin/bash (bug 471007)
 
