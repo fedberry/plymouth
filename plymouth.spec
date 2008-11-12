@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.11.2%{?dist}
+Release: 0.2008.11.12.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -309,6 +309,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Nov 12 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.1
+- Fix star image (Charlie, bug 471113)
+
 * Tue Nov 11 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.11.2
 - Improve solar flares (Charlie)
 - redirect tty again on --show-splash
