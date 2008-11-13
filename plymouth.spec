@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.12.2%{?dist}
+Release: 0.2008.11.12.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -14,11 +14,7 @@ Source1: boot-duration
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Obsoletes: rhgb < 1:10.0.0
-Provides: rhgb = 1:10.0.0
-
 Requires: system-logos >= 9.0.1
-Requires: system-plymouth-plugin >= %{version}-%{release}
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
@@ -27,6 +23,17 @@ Plymouth provides an attractive graphical boot animation in
 place of the text messages that normally get shown.  Text
 messages are instead redirected to a log file for viewing
 after boot.
+
+%package system-plugin
+Summary: Plymouth default plugin
+Group: System Environment/Base
+Obsoletes: rhgb < 1:10.0.0
+Provides: rhgb = 1:10.0.0
+Requires: plymouth(system-plugin) = %{version}-%{release}
+Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
+
+%description system-plugin
+This metapackage tracks the current distribution default plugin.
 
 %package libs
 Summary: Plymouth libraries
@@ -133,22 +140,11 @@ Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
-Provides: system-plymouth-plugin = %{version}-%{release}
+Provides: plymouth(system-plugin) = %{version}-%{release}
 
 %description plugin-solar
 This package contains the "Solar" boot splash plugin for
 Plymouth. It features a blue flamed sun with animated solar flares.
-
-%package text-and-details-only
-Summary: Plymouth base plugin set
-Group: System Environment/Base
-Requires: %{name}-libs = %{version}-%{release}
-Provides: system-plymouth-plugin = %{version}-%{release}
-
-%description text-and-details-only
-This package enables users to remove the default graphical plugin
-from their system.  This is useful for embedded devices or servers
-where the graphical plugin's dependencies are undesirable.
 
 %prep
 %setup -q
@@ -305,10 +301,14 @@ fi
 %{_datadir}/plymouth/solar/*.png
 %{_libdir}/plymouth/solar.so
 
-%files text-and-details-only
+%files system-plugin
 %defattr(-, root, root)
 
 %changelog
+* Wed Nov 12 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.3
+- Redo packaging to work better with minimal installs
+  (bug 471314)
+
 * Wed Nov 12 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.2
 - Fix plymouth-set-default-plugin to allow external $LIB
 
