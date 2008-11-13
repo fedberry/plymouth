@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.12.3%{?dist}
+Release: 0.2008.11.12.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -17,6 +17,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: system-logos >= 9.0.1
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
+
+Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -30,7 +32,6 @@ Group: System Environment/Base
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
 Requires: plymouth(system-plugin) = %{version}-%{release}
-Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 
 %description system-plugin
 This metapackage tracks the current distribution default plugin.
@@ -305,6 +306,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Nov 13 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.4
+- Move Obsoletes: plymouth-text-and-details-only to base package
+  so people who had it installed don't end up solar on upgrade
+
 * Wed Nov 12 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.3
 - Redo packaging to work better with minimal installs
   (bug 471314)
