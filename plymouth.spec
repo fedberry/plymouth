@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.12.4%{?dist}
+Release: 0.2008.11.14.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -306,6 +306,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Nov 14 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.14.1
+- Generate solar background dynamically to reduce ondisk size, and
+  look better at various resolutions (Charlie, bug 471227)
+
 * Thu Nov 13 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.12.4
 - Move Obsoletes: plymouth-text-and-details-only to base package
   so people who had it installed don't end up solar on upgrade
