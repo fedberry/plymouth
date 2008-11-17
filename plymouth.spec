@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.17.1%{?dist}
+Release: 0.2008.11.17.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -306,6 +306,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.17.2
+- Don't tell gdm to transition unless booting into runlevel 3
+  (bug 471785)
+
 * Mon Nov 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.17.1
 - Crawl progress bar if boot is way off course (Charlie, bug 471089)
 
