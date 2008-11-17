@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.17.2%{?dist}
+Release: 0.2008.11.17.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -175,10 +175,14 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
 (cd $RPM_BUILD_ROOT%{_bindir}; ln -s ../../bin/plymouth)
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
+cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+[ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
 
 %postun
 if [ $1 -eq 0 ]; then
@@ -231,16 +235,17 @@ fi
 %doc AUTHORS NEWS README
 %dir %{_datadir}/plymouth
 %dir %{_libexecdir}/plymouth
+%dir %{_localstatedir}/lib/plymouth
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
 %{_bindir}/plymouth
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
+%{_datadir}/plymouth/default-boot-duration
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
-%{_localstatedir}/lib/plymouth
-%config(noreplace) %{_localstatedir}/lib/plymouth/boot-duration
+%ghost %{_localstatedir}/lib/plymouth/boot-duration
 
 %files devel
 %defattr(-, root, root)
@@ -306,6 +311,11 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.17.3
+- don't give error about missing default.so
+- rework packaging of boot-duration to prevent .rpmnew droppings
+  (bug 469752)
+
 * Mon Nov 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.17.2
 - Don't tell gdm to transition unless booting into runlevel 3
   (bug 471785)
