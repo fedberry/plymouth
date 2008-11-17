@@ -5,7 +5,7 @@
 Summary: Plymouth Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 0.2008.11.14.2%{?dist}
+Release: 0.2008.11.17.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -306,6 +306,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.17.1
+- Crawl progress bar if boot is way off course (Charlie, bug 471089)
+
 * Fri Nov 14 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.11.14.2
 - Don't loop forever when tty returns NUL byte (bug 471498)
 
