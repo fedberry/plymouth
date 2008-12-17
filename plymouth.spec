@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -19,6 +19,8 @@ Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
+
+Patch0: plymouth-0.6.0-drop-nash.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -149,6 +151,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %prep
 %setup -q
+%patch0 -p1 -b .drop-nash
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -311,6 +314,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Dec 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-2
+- Add patch from drop-nash branch for jeremy
+
 * Wed Dec  3 2008 Ray Strode <rstrode@redhat.com> 0.6.0-1
 - Update to 0.6.0
 
