@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.6.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -21,6 +21,7 @@ Requires: initscripts >= 8.83-1
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 
 Patch0: plymouth-0.6.0-drop-nash.patch
+Patch1: plymouth-0.6.0-fix-heap-corruptor.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -152,6 +153,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 %prep
 %setup -q
 %patch0 -p1 -b .drop-nash
+%patch1 -p1 -b .fix-heap-corruptor
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -314,6 +316,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Feb 24 2009 Ray Strode <rstrode@redhat.com> 0.6.0-3
+- Add fix-heap-corruptor patch from master.  Problem
+  spotted by Mr. McCann.
+
 * Wed Dec 17 2008 Ray Strode <rstrode@redhat.com> 0.6.0-2
 - Add patch from drop-nash branch for jeremy
 
