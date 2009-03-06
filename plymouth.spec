@@ -4,8 +4,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.6.0
-Release: 3%{?dist}
+Version: 0.7.0
+Release: 0.2009.03.06%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -19,9 +19,6 @@ Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
-
-Patch0: plymouth-0.6.0-drop-nash.patch
-Patch1: plymouth-0.6.0-fix-heap-corruptor.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -152,8 +149,6 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %prep
 %setup -q
-%patch0 -p1 -b .drop-nash
-%patch1 -p1 -b .fix-heap-corruptor
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -172,6 +167,10 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+
+# Glow isn't quite ready for primetime
+rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/glow/
+rm -f $RPM_BUILD_ROOT%{_libdir}/plymouth/glow.so
 
 find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} \;
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
@@ -201,7 +200,7 @@ fi
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
+        %{_sbindir}/plymouth-set-default-plugin text
     fi
 fi
 
@@ -223,7 +222,7 @@ fi
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
-        %{_sbindir}/plymouth-set-default-plugin text
+        %{_sbindir}/plymouth-set-default-plugin --reset
     fi
 fi
 
@@ -316,6 +315,12 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Mar  6 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.06
+- Updated to development snapshot
+- Guess progress better on second boot of persistent live images
+- Drop upstream patches
+- swap "solar" and "spinfinity" scriptlet behavior
+
 * Tue Feb 24 2009 Ray Strode <rstrode@redhat.com> 0.6.0-3
 - Add fix-heap-corruptor patch from master.  Problem
   spotted by Mr. McCann.
