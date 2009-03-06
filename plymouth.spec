@@ -196,6 +196,16 @@ fi
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
+%post plugin-spinfinity
+export LIB=%{_lib}
+if [ $1 -eq 1 ]; then
+    %{_sbindir}/plymouth-set-default-plugin spinfinity
+else
+    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
+        %{_sbindir}/plymouth-set-default-plugin spinfinity
+    fi
+fi
+
 %postun plugin-spinfinity
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
@@ -210,12 +220,6 @@ if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-plugin --reset
     fi
-fi
-
-%post plugin-solar
-export LIB=%{_lib}
-if [ $1 -eq 1 ]; then
-    %{_sbindir}/plymouth-set-default-plugin solar
 fi
 
 %postun plugin-solar
@@ -315,6 +319,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Mar  6 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.06.1
+- more scriptlet changes to move from solar to spinfinity
+
 * Fri Mar  6 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.06
 - Updated to development snapshot
 - Guess progress better on second boot of persistent live images
