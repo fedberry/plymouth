@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.03.06.2%{?dist}
+Release: 0.2009.03.09.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -19,7 +19,6 @@ Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
-Patch0: plymouth-0.7.0-fix-set-default.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -150,7 +149,6 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-set-default
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -321,6 +319,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Mar  9 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.09.1
+- Attempt to address some problems with password handling in the
+  0.7.0 snapshots
+
 * Fri Mar  6 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.06.2
 - Fix set default script
 
