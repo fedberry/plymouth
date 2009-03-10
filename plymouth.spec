@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.03.09.1%{?dist}
+Release: 0.2009.03.10.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -319,6 +319,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Mar 10 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.10.1
+- Address one more issue with password handling.  It wasn't working
+  well for secondary devices when using the "details" plugin.
+
 * Mon Mar  9 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.09.1
 - Attempt to address some problems with password handling in the
   0.7.0 snapshots
