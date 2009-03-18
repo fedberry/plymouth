@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.03.10.1%{?dist}
+Release: 0.2009.03.10.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -17,6 +17,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: system-logos >= 9.0.1
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
+
+Patch0: plymouth-0.7.0-destroy-terminal-on-detach.patch
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 
@@ -149,6 +151,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %prep
 %setup -q
+%patch0 -p1 -b .destroy-terminal-on-detach
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -319,6 +322,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Mar 18 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.10.2
+- Destroy terminal on detach (may help with bug 490965)
+
 * Tue Mar 10 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.10.1
 - Address one more issue with password handling.  It wasn't working
   well for secondary devices when using the "details" plugin.
