@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.03.10.2%{?dist}
+Release: 0.2009.03.10.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -14,7 +14,7 @@ Source1: boot-duration
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires: system-logos >= 9.0.1
+Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
@@ -322,6 +322,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Apr 08 2009 Jesse Keating <jkeating@redhat.com> - 0.7.0-0.2009.03.10.3
+- Drop the version on system-logos requires for now, causing hell with
+  other -logos providers not having the same version.
+
 * Wed Mar 18 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.03.10.2
 - Destroy terminal on detach (may help with bug 490965)
 
