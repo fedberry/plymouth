@@ -5,11 +5,12 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.03.10.3%{?dist}
+Release: 0.2009.05.06.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
+Source2: charge.plymouth
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -17,8 +18,6 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
-
-Patch0: plymouth-0.7.0-destroy-terminal-on-detach.patch
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 
@@ -28,15 +27,18 @@ place of the text messages that normally get shown.  Text
 messages are instead redirected to a log file for viewing
 after boot.
 
-%package system-plugin
-Summary: Plymouth default plugin
+%package system-theme
+Summary: Plymouth default theme
 Group: System Environment/Base
 Obsoletes: rhgb < 1:10.0.0
 Provides: rhgb = 1:10.0.0
-Requires: plymouth(system-plugin) = %{version}-%{release}
+Obsoletes: %{name}-system-plugin <  %{version}-%{release}
+Provides: %{name}-system-plugin = %{version}-%{release}
+Provides: rhgb = 1:10.0.0
+Requires: plymouth(system-theme) = %{version}-%{release}
 
-%description system-plugin
-This metapackage tracks the current distribution default plugin.
+%description system-theme
+This metapackage tracks the current distribution default theme.
 
 %package libs
 Summary: Plymouth libraries
@@ -103,11 +105,21 @@ graphical boot splashes using pango and cairo.
 Summary: Plymouth "Fade-In" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
 
 %description plugin-fade-in
 This package contains the "Fade-In" boot splash plugin for
+Plymouth. It features a centered image that fades in and out
+while other images pulsate around during system boot up.
+
+%package theme-fade-in
+Summary: Plymouth "Fade-In" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-fade-in = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+
+%description theme-fade-in
+This package contains the "Fade-In" boot splash theme for
 Plymouth. It features a centered logo that fades in and out
 while stars twinkle around the logo during system boot up.
 
@@ -115,11 +127,20 @@ while stars twinkle around the logo during system boot up.
 Summary: Plymouth "Pulser" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-plugin
-BuildRequires: libpng-devel
 
 %description plugin-pulser
 This package contains the "Pulser" boot splash plugin for
+Plymouth. It features a pulsing text progress indicator
+centered in the screen during system boot up.
+
+%package theme-pulser
+Summary: Plymouth "Pulser" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-pulser = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+
+%description theme-pulser
+This package contains the "Pulser" boot splash theme for
 Plymouth. It features a pulsing text progress indicator
 centered in the screen during system boot up.
 
@@ -129,10 +150,20 @@ Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 BuildRequires: libpng-devel
-Requires(post): %{_sbindir}/plymouth-set-default-plugin
 
 %description plugin-spinfinity
 This package contains the "Spinfinity" boot splash plugin for
+Plymouth. It features a centered logo and animated spinner that
+spins in the shape of an infinity sign.
+
+%package theme-spinfinity
+Summary: Plymouth "Spinfinity" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-spinfinity = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+
+%description theme-spinfinity
+This package contains the "Spinfinity" boot splash theme for
 Plymouth. It features a centered logo and animated spinner that
 spins in the shape of an infinity sign.
 
@@ -141,17 +172,49 @@ Summary: Plymouth "Solar" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
-Requires(post): %{_sbindir}/plymouth-set-default-plugin
 BuildRequires: libpng-devel
-Provides: plymouth(system-plugin) = %{version}-%{release}
 
 %description plugin-solar
 This package contains the "Solar" boot splash plugin for
 Plymouth. It features a blue flamed sun with animated solar flares.
 
+%package theme-solar
+Summary: Plymouth "Solar" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-solar = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+
+%description theme-solar
+This package contains the "Solar" boot splash theme for
+Plymouth. It features a blue flamed sun with animated solar flares.
+
+%package plugin-two-step
+Summary: Plymouth "two-step" plugin
+Group: System Environment/Base
+Requires: %{name}-libs = %{version}-%{release}
+Requires: plymouth-plugin-label
+BuildRequires: libpng-devel
+
+%description plugin-two-step
+This package contains the "two-step" boot splash plugin for
+Plymouth. It features a two phased boot process that starts with
+a progressing animation synced to boot time and finishes with a
+short, fast one-shot animation.
+
+%package theme-charge
+Summary: Plymouth "Charge" plugin
+Group: System Environment/Base
+Requires: %{name}-plugin-solar = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+Provides: plymouth(system-theme) = %{version}-%{release}
+
+%description theme-charge
+This package contains the "charge" boot splash theme for
+Plymouth. It features the shadowy hull of a Fedora logo charge up and
+and finally burst into into full form.
+
 %prep
 %setup -q
-%patch0 -p1 -b .destroy-terminal-on-detach
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -185,6 +248,14 @@ mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 
+# Add charge, our new default
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
+cp $RPM_SOURCE_DIR/charge.plymouth $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
+cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
+
+# Drop glow, it's not very Fedora-y
+rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -199,45 +270,53 @@ fi
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
-%post plugin-spinfinity
+%postun theme-spinfinity
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinfinity" ]; then
+        %{_sbindir}/plymouth-set-default-theme text
+    fi
+fi
+
+%postun theme-fade-in
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
+    fi
+fi
+
+%postun theme-solar
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
+    fi
+fi
+
+%postun theme-pulser
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "pulser" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
+    fi
+fi
+
+%post theme-charge
 export LIB=%{_lib}
 if [ $1 -eq 1 ]; then
-    %{_sbindir}/plymouth-set-default-plugin spinfinity
+    %{_sbindir}/plymouth-set-default-theme charge
 else
-    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
-        %{_sbindir}/plymouth-set-default-plugin spinfinity
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
+        %{_sbindir}/plymouth-set-default-theme charge
     fi
 fi
 
-%postun plugin-spinfinity
+%postun theme-charge
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
-    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "spinfinity" ]; then
-        %{_sbindir}/plymouth-set-default-plugin text
-    fi
-fi
-
-%postun plugin-fade-in
-export LIB=%{_lib}
-if [ $1 -eq 0 ]; then
-    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "fade-in" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
-    fi
-fi
-
-%postun plugin-solar
-export LIB=%{_lib}
-if [ $1 -eq 0 ]; then
-    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "solar" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
-    fi
-fi
-
-%postun plugin-pulser
-export LIB=%{_lib}
-if [ $1 -eq 0 ]; then
-    if [ "$(%{_sbindir}/plymouth-set-default-plugin)" == "pulser" ]; then
-        %{_sbindir}/plymouth-set-default-plugin --reset
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "charge" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
     fi
 fi
 
@@ -245,6 +324,7 @@ fi
 %defattr(-, root, root)
 %doc AUTHORS NEWS README
 %dir %{_datadir}/plymouth
+%dir %{_datadir}/plymouth/themes
 %dir %{_libexecdir}/plymouth
 %dir %{_localstatedir}/lib/plymouth
 %{plymouthdaemon_execdir}/plymouthd
@@ -254,6 +334,8 @@ fi
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
 %{_datadir}/plymouth/default-boot-duration
+%{_datadir}/plymouth/themes/details/details.plymouth
+%{_datadir}/plymouth/themes/text/text.plymouth
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
@@ -273,7 +355,7 @@ fi
 
 %files scripts
 %defattr(-, root, root)
-%{_sbindir}/plymouth-set-default-plugin
+%{_sbindir}/plymouth-set-default-theme
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
 
@@ -291,37 +373,67 @@ fi
 
 %files plugin-fade-in
 %defattr(-, root, root)
-%dir %{_datadir}/plymouth/fade-in
-%{_datadir}/plymouth/fade-in/bullet.png
-%{_datadir}/plymouth/fade-in/entry.png
-%{_datadir}/plymouth/fade-in/lock.png
-%{_datadir}/plymouth/fade-in/star.png
 %{_libdir}/plymouth/fade-in.so
+
+%files theme-fade-in
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/fade-in
+%{_datadir}/plymouth/themes/fade-in/bullet.png
+%{_datadir}/plymouth/themes/fade-in/entry.png
+%{_datadir}/plymouth/themes/fade-in/lock.png
+%{_datadir}/plymouth/themes/fade-in/star.png
+%{_datadir}/plymouth/themes/fade-in/fade-in.plymouth
 
 %files plugin-pulser
 %defattr(-, root, root)
 %{_libdir}/plymouth/pulser.so
 
+%files theme-pulser
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/pulser
+%{_datadir}/plymouth/themes/pulser/pulser.plymouth
+
 %files plugin-spinfinity
 %defattr(-, root, root)
-%dir %{_datadir}/plymouth/spinfinity
-%{_datadir}/plymouth/spinfinity/box.png
-%{_datadir}/plymouth/spinfinity/bullet.png
-%{_datadir}/plymouth/spinfinity/entry.png
-%{_datadir}/plymouth/spinfinity/lock.png
-%{_datadir}/plymouth/spinfinity/throbber-[0-3][0-9].png
 %{_libdir}/plymouth/spinfinity.so
+
+%files theme-spinfinity
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/spinfinity
+%{_datadir}/plymouth/themes/spinfinity/box.png
+%{_datadir}/plymouth/themes/spinfinity/bullet.png
+%{_datadir}/plymouth/themes/spinfinity/entry.png
+%{_datadir}/plymouth/themes/spinfinity/lock.png
+%{_datadir}/plymouth/themes/spinfinity/throbber-[0-3][0-9].png
+%{_datadir}/plymouth/themes/spinfinity/spinfinity.plymouth
 
 %files plugin-solar
 %defattr(-, root, root)
-%dir %{_datadir}/plymouth/solar
-%{_datadir}/plymouth/solar/*.png
 %{_libdir}/plymouth/solar.so
 
-%files system-plugin
+%files theme-solar
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/solar
+%{_datadir}/plymouth/themes/solar/*.png
+%{_datadir}/plymouth/themes/solar/solar.plymouth
+
+%files plugin-two-step
+%defattr(-, root, root)
+%{_libdir}/plymouth/two-step.so
+
+%files theme-charge
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/charge
+%{_datadir}/plymouth/themes/charge/*.png
+%{_datadir}/plymouth/themes/charge/charge.plymouth
+
+%files system-theme
 %defattr(-, root, root)
 
 %changelog
+* Wed May 06 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.06.1
+- Update to "plugin-rework" branch from git
+
 * Wed Apr 08 2009 Jesse Keating <jkeating@redhat.com> - 0.7.0-0.2009.03.10.3
 - Drop the version on system-logos requires for now, causing hell with
   other -logos providers not having the same version.
