@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.05.06.1%{?dist}
+Release: 0.2009.05.06.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -204,7 +204,7 @@ short, fast one-shot animation.
 %package theme-charge
 Summary: Plymouth "Charge" plugin
 Group: System Environment/Base
-Requires: %{name}-plugin-solar = %{version}-%{release}
+Requires: %{name}-plugin-two-step = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
 Provides: plymouth(system-theme) = %{version}-%{release}
 
@@ -431,6 +431,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed May 06 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.06.2
+- Make "charge" theme require two-step plugin instead of solar (oops)
+
 * Wed May 06 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.06.1
 - Update to "plugin-rework" branch from git
 
