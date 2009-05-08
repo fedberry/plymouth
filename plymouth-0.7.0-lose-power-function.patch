@@ -1,0 +1,15 @@
+diff -up plymouth-0.7.0/src/plugins/splash/two-step/plugin.c.lose-power-function plymouth-0.7.0/src/plugins/splash/two-step/plugin.c
+--- plymouth-0.7.0/src/plugins/splash/two-step/plugin.c.lose-power-function	2009-05-08 11:13:16.136880758 -0400
++++ plymouth-0.7.0/src/plugins/splash/two-step/plugin.c	2009-05-08 11:13:30.095874516 -0400
+@@ -599,9 +599,11 @@ on_boot_progress (ply_boot_splash_plugin
+       percent_done *= (1 / SHOW_ANIMATION_PERCENT);
+       total_duration = duration / percent_done;
+ 
++#if 0
+       /* Fun made-up smoothing function to make the growth asymptotic:
+        * fraction(time,estimate)=1-2^(-(time^1.45)/estimate) */
+       percent_done = 1.0 - pow (2.0, -pow (duration, 1.45) / total_duration) * (1.0 - percent_done);
++#endif
+ 
+       ply_progress_animation_set_percent_done (plugin->progress_animation,
+                                                percent_done);
