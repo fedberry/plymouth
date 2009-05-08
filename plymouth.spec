@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.05.06.4%{?dist}
+Release: 0.2009.05.08.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -20,8 +20,6 @@ Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
-
-Patch0: plymouth-0.7.0-lose-power-function.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -217,7 +215,6 @@ and finally burst into into full form.
 
 %prep
 %setup -q
-%patch0 -p1 -b .loser-power-function
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -434,6 +431,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri May 08 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.08.1
+- Add some fixes for shutdown
+
 * Fri May 08 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.06.4
 - Don't slow down progress updating at the end of boot
 
