@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.05.08.1%{?dist}
+Release: 0.2009.05.14.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -20,6 +20,8 @@ Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
+Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
+Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -101,13 +103,13 @@ This package contains the label control plugin for
 Plymouth. It provides the ability to render text on
 graphical boot splashes using pango and cairo.
 
-%package plugin-fade-in
-Summary: Plymouth "Fade-In" plugin
+%package plugin-fade-throbber
+Summary: Plymouth "Fade-Throbber" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 BuildRequires: libpng-devel
 
-%description plugin-fade-in
+%description plugin-fade-throbber
 This package contains the "Fade-In" boot splash plugin for
 Plymouth. It features a centered image that fades in and out
 while other images pulsate around during system boot up.
@@ -115,74 +117,60 @@ while other images pulsate around during system boot up.
 %package theme-fade-in
 Summary: Plymouth "Fade-In" theme
 Group: System Environment/Base
-Requires: %{name}-plugin-fade-in = %{version}-%{release}
+Requires: %{name}-plugin-fade-throbber = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
+Obsoletes: plymouth-plugin-fade-in <= 0.7.0-0.2009.05.08.2
+Provides: plymouth-plugin-fade-in = 0.7.0-0.2009.05.08.2
 
 %description theme-fade-in
 This package contains the "Fade-In" boot splash theme for
 Plymouth. It features a centered logo that fades in and out
 while stars twinkle around the logo during system boot up.
 
-%package plugin-pulser
-Summary: Plymouth "Pulser" plugin
-Group: System Environment/Base
-Requires: %{name}-libs = %{version}-%{release}
-
-%description plugin-pulser
-This package contains the "Pulser" boot splash plugin for
-Plymouth. It features a pulsing text progress indicator
-centered in the screen during system boot up.
-
-%package theme-pulser
-Summary: Plymouth "Pulser" theme
-Group: System Environment/Base
-Requires: %{name}-plugin-pulser = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-theme
-
-%description theme-pulser
-This package contains the "Pulser" boot splash theme for
-Plymouth. It features a pulsing text progress indicator
-centered in the screen during system boot up.
-
-%package plugin-spinfinity
-Summary: Plymouth "Spinfinity" plugin
+%package plugin-throbgress
+Summary: Plymouth "Throbgress" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 BuildRequires: libpng-devel
 
-%description plugin-spinfinity
-This package contains the "Spinfinity" boot splash plugin for
+%description plugin-throbgress
+This package contains the "throbgress" boot splash plugin for
 Plymouth. It features a centered logo and animated spinner that
-spins in the shape of an infinity sign.
+spins repeatedly while a progress bar advances at the bottom of
+the screen.
 
 %package theme-spinfinity
 Summary: Plymouth "Spinfinity" theme
 Group: System Environment/Base
-Requires: %{name}-plugin-spinfinity = %{version}-%{release}
+Requires: %{name}-plugin-throbgress = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
+Obsoletes: plymouth-plugin-spinfinity <= 0.7.0-0.2009.05.08.2
+Provides: plymouth-plugin-spinfinity = 0.7.0-0.2009.05.08.2
 
 %description theme-spinfinity
 This package contains the "Spinfinity" boot splash theme for
 Plymouth. It features a centered logo and animated spinner that
 spins in the shape of an infinity sign.
 
-%package plugin-solar
-Summary: Plymouth "Solar" plugin
+%package plugin-space-flares
+Summary: Plymouth "space-flares" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 BuildRequires: libpng-devel
 
-%description plugin-solar
-This package contains the "Solar" boot splash plugin for
-Plymouth. It features a blue flamed sun with animated solar flares.
+%description plugin-space-flares
+This package contains the "space-flares" boot splash plugin for
+Plymouth. It features a corner image with animated flares.
 
 %package theme-solar
 Summary: Plymouth "Solar" theme
 Group: System Environment/Base
-Requires: %{name}-plugin-solar = %{version}-%{release}
+Requires: %{name}-plugin-space-flares = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
+Obsoletes: plymouth-plugin-solar <= 0.7.0-0.2009.05.08.2
+Provides: plymouth-plugin-solar = 0.7.0-0.2009.05.08.2
 
 %description theme-solar
 This package contains the "Solar" boot splash theme for
@@ -211,7 +199,7 @@ Provides: plymouth(system-theme) = %{version}-%{release}
 %description theme-charge
 This package contains the "charge" boot splash theme for
 Plymouth. It features the shadowy hull of a Fedora logo charge up and
-and finally burst into into full form.
+and finally burst into full form.
 
 %prep
 %setup -q
@@ -294,14 +282,6 @@ if [ $1 -eq 0 ]; then
     fi
 fi
 
-%postun theme-pulser
-export LIB=%{_lib}
-if [ $1 -eq 0 ]; then
-    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "pulser" ]; then
-        %{_sbindir}/plymouth-set-default-theme --reset
-    fi
-fi
-
 %post theme-charge
 export LIB=%{_lib}
 if [ $1 -eq 1 ]; then
@@ -371,9 +351,9 @@ fi
 %defattr(-, root, root)
 %{_libdir}/plymouth/label.so
 
-%files plugin-fade-in
+%files plugin-fade-throbber
 %defattr(-, root, root)
-%{_libdir}/plymouth/fade-in.so
+%{_libdir}/plymouth/fade-throbber.so
 
 %files theme-fade-in
 %defattr(-, root, root)
@@ -384,18 +364,9 @@ fi
 %{_datadir}/plymouth/themes/fade-in/star.png
 %{_datadir}/plymouth/themes/fade-in/fade-in.plymouth
 
-%files plugin-pulser
+%files plugin-throbgress
 %defattr(-, root, root)
-%{_libdir}/plymouth/pulser.so
-
-%files theme-pulser
-%defattr(-, root, root)
-%dir %{_datadir}/plymouth/themes/pulser
-%{_datadir}/plymouth/themes/pulser/pulser.plymouth
-
-%files plugin-spinfinity
-%defattr(-, root, root)
-%{_libdir}/plymouth/spinfinity.so
+%{_libdir}/plymouth/throbgress.so
 
 %files theme-spinfinity
 %defattr(-, root, root)
@@ -407,9 +378,9 @@ fi
 %{_datadir}/plymouth/themes/spinfinity/throbber-[0-3][0-9].png
 %{_datadir}/plymouth/themes/spinfinity/spinfinity.plymouth
 
-%files plugin-solar
+%files plugin-space-flares
 %defattr(-, root, root)
-%{_libdir}/plymouth/solar.so
+%{_libdir}/plymouth/space-flares.so
 
 %files theme-solar
 %defattr(-, root, root)
@@ -431,6 +402,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu May 14 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.14.1
+- Update to new snapshot that renames plugins to fix upgrades
+  somewhat (bug 499940)
+
 * Fri May 08 2009 Ray Strode <rstrode@redhat.com> 0.7.0-0.2009.05.08.1
 - Add some fixes for shutdown
 
