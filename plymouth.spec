@@ -5,12 +5,13 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2009.05.14.1%{?dist}
+Release: 0.2009.05.14.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
+Source3: plymouth-set-default-plugin
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -171,6 +172,8 @@ Requires: %{name}-plugin-space-flares = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
 Obsoletes: plymouth-plugin-solar <= 0.7.0-0.2009.05.08.2
 Provides: plymouth-plugin-solar = 0.7.0-0.2009.05.08.2
+# We require this to fix upgrades (see bug 499940).
+Requires: plymouth-system-theme
 
 %description theme-solar
 This package contains the "Solar" boot splash theme for
@@ -243,6 +246,10 @@ cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $
 
 # Drop glow, it's not very Fedora-y
 rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
+
+# Add compat script for upgrades
+cp $RPM_SOURCE_DIR/plymouth-set-default-plugin $RPM_BUILD_ROOT%{_sbindir}
+chmod +x $RPM_BUILD_ROOT%{_sbindir}/plymouth-set-default-plugin
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -336,6 +343,7 @@ fi
 %files scripts
 %defattr(-, root, root)
 %{_sbindir}/plymouth-set-default-theme
+%{_sbindir}/plymouth-set-default-plugin
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
 
