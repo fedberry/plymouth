@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 0.2010.05.15.1%{?dist}
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -203,6 +203,30 @@ Provides: plymouth(system-theme) = %{version}-%{release}
 This package contains the "charge" boot splash theme for
 Plymouth. It features the shadowy hull of a Fedora logo charge up and
 and finally burst into full form.
+
+%package plugin-script
+Summary: Plymouth "script" plugin
+Group: System Environment/Base
+Requires: %{name}-libs = %{version}-%{release}
+BuildRequires: libpng-devel
+
+%description plugin-script
+This package contains the "script" boot splash plugin for
+Plymouth. It features an extensible, scriptable boot splash
+language that simplifies the process of designing custom
+boot splash themes.
+
+%package theme-script
+Summary: Plymouth "Script" plugin
+Group: System Environment/Base
+Requires: %{name}-plugin-script = %{version}-%{release}
+Requires(post): %{_sbindir}/plymouth-set-default-theme
+Provides: plymouth(system-theme) = %{version}-%{release}
+
+%description theme-script
+This package contains the "script" boot splash theme for
+Plymouth. It it is a simple example theme the uses the "script"
+plugin.
 
 %prep
 %setup -q
@@ -406,10 +430,23 @@ fi
 %{_datadir}/plymouth/themes/charge/*.png
 %{_datadir}/plymouth/themes/charge/charge.plymouth
 
+%files plugin-script
+%defattr(-, root, root)
+%{_libdir}/plymouth/script.so
+
+%files theme-script
+%defattr(-, root, root)
+%{_datadir}/plymouth/themes/script/*.png
+%{_datadir}/plymouth/themes/script/script.script
+%{_datadir}/plymouth/themes/script/script.plymouth
+
 %files system-theme
 %defattr(-, root, root)
 
 %changelog
+* Tue Aug 11 2009 Ray Strode <rstrode@redhat.com> 0.7.0-1
+- Update to 0.7.0
+
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-0.2010.05.15.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
