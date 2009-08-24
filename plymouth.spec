@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -265,7 +265,7 @@ cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 
 # Add charge, our new default
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
-cp $RPM_SOURCE_DIR/charge.plymouth $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 
 # Drop glow, it's not very Fedora-y
@@ -444,6 +444,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Aug 24 2009 Adam Jackson <ajax@redhat.com> 0.7.0-2
+- Set charge bgcolor to black. (#519052)
+
 * Tue Aug 11 2009 Ray Strode <rstrode@redhat.com> 0.7.0-1
 - Update to 0.7.0
 
