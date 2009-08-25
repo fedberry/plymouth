@@ -4,8 +4,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.7.0
-Release: 2%{?dist}
+Version: 0.7.1
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -444,6 +444,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Aug 25 2009 Ray Strode <rstrode@redhat.com> 0.7.1-1
+- Update to 0.7.1
+
 * Mon Aug 24 2009 Adam Jackson <ajax@redhat.com> 0.7.0-2
 - Set charge bgcolor to black. (#519052)
 
