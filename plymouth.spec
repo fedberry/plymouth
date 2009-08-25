@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -23,6 +23,8 @@ Requires: initscripts >= 8.83-1
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
+
+Patch0: 0001-populate-initrd-Get-plugin-path-from-plymouth.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -230,6 +232,7 @@ plugin.
 
 %prep
 %setup -q
+%patch0 -p1 -b .plugin-path
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -444,6 +447,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Aug 25 2009 Ray Strode <rstrode@redhat.com> 0.7.1-2
+- Get plugin path from plymouth instead of trying
+  to guess.  Should fix bug 502667
+
 * Tue Aug 25 2009 Ray Strode <rstrode@redhat.com> 0.7.1-1
 - Update to 0.7.1
 
