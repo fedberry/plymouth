@@ -1,17 +1,19 @@
 %define plymouthdaemon_execdir /sbin
 %define plymouthclient_execdir /bin
 %define plymouth_libdir /%{_lib}
+%define plymouth_initrd_file /boot/initrd-plymouth.img
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
+Source4: plymouth-generate-initrd
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -278,15 +280,24 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
 cp $RPM_SOURCE_DIR/plymouth-set-default-plugin $RPM_BUILD_ROOT%{_sbindir}
 chmod +x $RPM_BUILD_ROOT%{_sbindir}/plymouth-set-default-plugin
 
+# Copied from git until the next release or snapshot
+cp $RPM_SOURCE_DIR/plymouth-generate-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth
+chmod +x $RPM_BUILD_ROOT%{_libexecdir}/plymouth/plymouth-generate-initrd
+
+mkdir -p $RPM_BUILD_ROOT$(dirname %{plymouth_initrd_file})
+touch $RPM_BUILD_ROOT%{plymouth_initrd_file}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 [ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
+%{_libexecdir}/plymouth/plymouth-generate-initrd
 
 %postun
 if [ $1 -eq 0 ]; then
     rm -f %{_libdir}/plymouth/default.so
+    rm -f /boot/initrd-plymouth.img
 fi
 
 %post libs -p /sbin/ldconfig
@@ -297,6 +308,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinfinity" ]; then
         %{_sbindir}/plymouth-set-default-theme text
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -305,6 +317,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -313,6 +326,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -323,6 +337,7 @@ if [ $1 -eq 1 ]; then
 else
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme charge
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -331,6 +346,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "charge" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -353,6 +369,7 @@ fi
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
+%ghost %{plymouth_initrd_file}
 
 %files devel
 %defattr(-, root, root)
@@ -373,6 +390,7 @@ fi
 %{_sbindir}/plymouth-set-default-plugin
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
+%{_libexecdir}/plymouth/plymouth-generate-initrd
 
 %files utils
 %defattr(-, root, root)
@@ -447,6 +465,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Aug 28 2009 Ray Strode <rstrode@redhat.com> 0.7.1-3
+- Create plymouth supplementary initrd in post (bug 515589)
+
 * Tue Aug 25 2009 Ray Strode <rstrode@redhat.com> 0.7.1-2
 - Get plugin path from plymouth instead of trying
   to guess.  Should fix bug 502667
