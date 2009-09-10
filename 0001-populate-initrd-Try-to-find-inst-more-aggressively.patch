@@ -60,3 +60,31 @@ index 3857197..dd502b9 100755
 -- 
 1.6.4.2
 
+From 3c2e1453d9652bbe6a29d89edd80664b87ab7271 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Thu, 10 Sep 2009 09:54:44 -0400
+Subject: [PATCH] [populate-initrd] Don't require set_verbose function
+
+If it's not around, define it, so we can use it without error
+---
+ scripts/plymouth-populate-initrd.in |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/scripts/plymouth-populate-initrd.in b/scripts/plymouth-populate-initrd.in
+index dd502b9..dcf2b42 100755
+--- a/scripts/plymouth-populate-initrd.in
++++ b/scripts/plymouth-populate-initrd.in
+@@ -28,6 +28,10 @@ if [ " $(type -t inst) " != " function " ]; then
+     exit 1
+ fi
+ 
++if [ " $(type -t set_verbose) " != " function " ]; then
++    function set_verbose { true; }
++fi
++
+ function usage() {
+     local output="/dev/stdout"
+     local rc=0
+-- 
+1.6.4.2
+
