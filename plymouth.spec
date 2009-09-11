@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.7.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -224,7 +224,6 @@ Summary: Plymouth "Script" plugin
 Group: System Environment/Base
 Requires: %{name}-plugin-script = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
-Provides: plymouth(system-theme) = %{version}-%{release}
 
 %description theme-script
 This package contains the "script" boot splash theme for
@@ -450,6 +449,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Sep 11 2009 Ray Strode <rstrode@redhat.com> 0.7.1-6
+- Remove duplicate Provides: plymouth(system-theme)
+
 * Thu Sep 10 2009 Ray Strode <rstrode@redhat.com> 0.7.1-5
 - Fix set_verbose error reported by yaneti.
 
