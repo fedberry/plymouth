@@ -20,6 +20,11 @@ Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 
+BuildRequires: pkgconfig(libdrm)
+BuildRequires: pkgconfig(libdrm_intel)
+BuildRequires: pkgconfig(libdrm_radeon)
+BuildRequires: pkgconfig(libdrm_nouveau)
+
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
