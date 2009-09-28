@@ -4,8 +4,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.7.1
-Release: 7%{?dist}
+Version: 0.8.0
+Release: 0.2009.28.09%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -23,9 +23,6 @@ Requires: initscripts >= 8.83-1
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
-
-Patch0: 0001-populate-initrd-Get-plugin-path-from-plymouth.patch
-Patch1: 0001-populate-initrd-Try-to-find-inst-more-aggressively.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -232,8 +229,6 @@ plugin.
 
 %prep
 %setup -q
-%patch0 -p1 -b .plugin-path
-%patch1 -p1 -b .inst-function
 
 %build
 %configure --enable-tracing --disable-tests --without-boot-entry \
@@ -349,6 +344,7 @@ fi
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
+%{_libdir}/plymouth/renderers
 %{_datadir}/plymouth/default-boot-duration
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
@@ -374,6 +370,7 @@ fi
 %{_sbindir}/plymouth-set-default-theme
 %{_sbindir}/plymouth-set-default-plugin
 %{_libexecdir}/plymouth/plymouth-update-initrd
+%{_libexecdir}/plymouth/plymouth-generate-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
 
 %files utils
@@ -449,6 +446,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Sep 28 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.28.09
+- Add prerelease of 0.8.0 for multihead support
+
 * Fri Sep 11 2009 Ray Strode <rstrode@redhat.com> 0.7.1-7
 - Go back to blue charge background (bug 522460)
 
