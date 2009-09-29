@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009.28.09%{?dist}
+Release: 0.2009.29.09%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -451,6 +451,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Sep 29 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.29.09
+- Fix escape and ask-for-password
+
 * Mon Sep 28 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.28.09
 - Add prerelease of 0.8.0 for multihead support
 
