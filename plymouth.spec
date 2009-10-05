@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009.29.09%{?dist}
+Release: 0.2009.10.05%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -349,7 +349,8 @@ fi
 %{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
-%{_libdir}/plymouth/renderers
+%{_libdir}/plymouth/renderers/drm*
+%{_libdir}/plymouth/renderers/frame-buffer*
 %{_datadir}/plymouth/default-boot-duration
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
@@ -362,6 +363,7 @@ fi
 %{plymouth_libdir}/libply.so
 %{_libdir}/libplybootsplash.so
 %{_libdir}/pkgconfig/plymouth-1.pc
+%{_libdir}/plymouth/renderers/x11*
 %{_includedir}/plymouth-1
 
 %files libs
@@ -451,6 +453,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Sep 29 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.10.05
+- Add new x11-renderer plugin from Charlie Brej for debugging
+
 * Tue Sep 29 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.29.09
 - Fix escape and ask-for-password
 
