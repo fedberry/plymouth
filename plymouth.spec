@@ -24,6 +24,7 @@ BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libdrm_intel)
 BuildRequires: pkgconfig(libdrm_radeon)
 BuildRequires: pkgconfig(libdrm_nouveau)
+BuildRequires: kernel-headers
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
