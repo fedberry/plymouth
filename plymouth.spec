@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009.10.05%{?dist}
+Release: 0.1.2009.11.23%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -453,6 +453,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Nov 23 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.1.2009.11.23
+- Update to latest snapshot
+
 * Tue Sep 29 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.10.05
 - Add new x11-renderer plugin from Charlie Brej for debugging
 
