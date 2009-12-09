@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.1.2009.11.23%{?dist}
+Release: 0.2009129%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -237,7 +237,7 @@ plugin.
 %setup -q
 
 %build
-%configure --enable-tracing --disable-tests --without-boot-entry \
+%configure --enable-tracing --disable-tests                      \
            --without-default-plugin                              \
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
            --with-background-start-color-stop=0x0073B3           \
@@ -454,7 +454,7 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Mon Nov 23 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.1.2009.11.23
+* Wed Dec 09 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009129
 - Update to latest snapshot
 
 * Tue Sep 29 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009.10.05
