@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009129%{?dist}
+Release: 0.2009129.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -454,6 +454,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Dec 22 2009 Dave Airlie <airlied@redhat.com> 0.8.0-0.2009129.1
+- rebuild for API bump in libdrm
+
 * Wed Dec 09 2009 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009129
 - Update to latest snapshot
 
