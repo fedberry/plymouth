@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009129.1%{?dist}
+Release: 0.2009129.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -80,7 +80,6 @@ including a boot log viewing application.
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
-Requires: nash
 
 %description scripts
 This package contains scripts that help integrate Plymouth with
@@ -454,6 +453,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Jan 07 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009129.2
+- Drop nash dep
+
 * Tue Dec 22 2009 Dave Airlie <airlied@redhat.com> 0.8.0-0.2009129.1
 - rebuild for API bump in libdrm
 
