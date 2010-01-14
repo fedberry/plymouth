@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.20100114.1%{?dist}
+Release: 0.20100114.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -470,6 +470,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Jan 14 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.20100114.2
+- Don't link plymouthd against libpng either
+
 * Thu Jan 14 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.20100114.1
 - Make it possible to do a basic plymouth installations without
   libpng
