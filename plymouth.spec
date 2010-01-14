@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.0
-Release: 0.2009129.2%{?dist}
+Release: 0.20100114.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -49,13 +49,25 @@ Requires: plymouth(system-theme) = %{version}-%{release}
 %description system-theme
 This metapackage tracks the current distribution default theme.
 
-%package libs
-Summary: Plymouth libraries
+%package core-libs
+Summary: Plymouth core libraries
 Group: Development/Libraries
 
-%description libs
-This package contains the libply and libplybootsplash libraries
+%description core-libs
+This package contains the libply and libply-splash-core libraries
 used by Plymouth.
+
+%package graphics-libs
+Summary: Plymouth graphics libraries
+Group: Development/Libraries
+Requires: %{name}-core-libs = %{version}-%{release}
+Obsoletes: %{name}-libs < %{version}-%{release}
+Provides: %{name}-libs = %{version}-%{release}
+BuildRequires: libpng-devel
+
+%description graphics-libs
+This package contains the libply-splash-graphics library
+used by graphical Plymouth splashes.
 
 %package devel
 Summary: Libraries and headers for writing Plymouth splash plugins
@@ -113,7 +125,6 @@ graphical boot splashes using pango and cairo.
 Summary: Plymouth "Fade-Throbber" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
-BuildRequires: libpng-devel
 
 %description plugin-fade-throbber
 This package contains the "Fade-In" boot splash plugin for
@@ -138,7 +149,6 @@ Summary: Plymouth "Throbgress" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
-BuildRequires: libpng-devel
 
 %description plugin-throbgress
 This package contains the "throbgress" boot splash plugin for
@@ -164,7 +174,6 @@ Summary: Plymouth "space-flares" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
-BuildRequires: libpng-devel
 
 %description plugin-space-flares
 This package contains the "space-flares" boot splash plugin for
@@ -189,7 +198,6 @@ Summary: Plymouth "two-step" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
-BuildRequires: libpng-devel
 
 %description plugin-two-step
 This package contains the "two-step" boot splash plugin for
@@ -213,7 +221,6 @@ and finally burst into full form.
 Summary: Plymouth "script" plugin
 Group: System Environment/Base
 Requires: %{name}-libs = %{version}-%{release}
-BuildRequires: libpng-devel
 
 %description plugin-script
 This package contains the "script" boot splash plugin for
@@ -291,8 +298,11 @@ if [ $1 -eq 0 ]; then
     rm -f /boot/initrd-plymouth.img
 fi
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post core-libs -p /sbin/ldconfig
+%postun core-libs -p /sbin/ldconfig
+
+%post graphics-libs -p /sbin/ldconfig
+%postun graphics-libs -p /sbin/ldconfig
 
 %postun theme-spinfinity
 export LIB=%{_lib}
@@ -356,21 +366,28 @@ fi
 %{_datadir}/plymouth/themes/text/text.plymouth
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
+%{_mandir}/man?/*
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
 
 %files devel
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so
-%{_libdir}/libplybootsplash.so
-%{_libdir}/pkgconfig/plymouth-1.pc
+%{_libdir}/libply-splash-core.so
+%{_libdir}/libply-splash-graphics.so
+%{_libdir}/pkgconfig/ply-splash-core.pc
+%{_libdir}/pkgconfig/ply-splash-graphics.pc
 %{_libdir}/plymouth/renderers/x11*
 %{_includedir}/plymouth-1
 
-%files libs
+%files core-libs
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so.*
-%{_libdir}/libplybootsplash.so.*
+%{_libdir}/libply-splash-core.so.*
 %dir %{_libdir}/plymouth
+
+%files graphics-libs
+%defattr(-, root, root)
+%{_libdir}/libply-splash-graphics.so.*
 
 %files scripts
 %defattr(-, root, root)
@@ -453,6 +470,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Jan 14 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.20100114.1
+- Make it possible to do a basic plymouth installations without
+  libpng
+
 * Thu Jan 07 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.2009129.2
 - Drop nash dep
 
