@@ -4,8 +4,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.0
-Release: 0.20100114.2%{?dist}
+Version: 0.8.4
+Release: 0.20100723.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -242,6 +242,9 @@ plugin.
 %prep
 %setup -q
 
+# Change the default theme
+sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
+
 %build
 %configure --enable-tracing --disable-tests                      \
            --without-default-plugin                              \
@@ -353,6 +356,8 @@ fi
 %dir %{_datadir}/plymouth/themes
 %dir %{_libexecdir}/plymouth
 %dir %{_localstatedir}/lib/plymouth
+%dir %{_libdir}/plymouth/renderers
+%config(noreplace) %{_sysconfdir}/plymouth/plymouthd.conf
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
 %{_bindir}/plymouth
@@ -364,6 +369,7 @@ fi
 %{_datadir}/plymouth/default-boot-duration
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
+%{_datadir}/plymouth/plymouthd.defaults
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %{_mandir}/man?/*
@@ -372,17 +378,20 @@ fi
 %files devel
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so
-%{_libdir}/libply-splash-core.so
+%{plymouth_libdir}/libply-splash-core.so
+%{_libdir}/libply-boot-client.so
 %{_libdir}/libply-splash-graphics.so
 %{_libdir}/pkgconfig/ply-splash-core.pc
 %{_libdir}/pkgconfig/ply-splash-graphics.pc
+%{_libdir}/pkgconfig/ply-boot-client.pc
 %{_libdir}/plymouth/renderers/x11*
 %{_includedir}/plymouth-1
 
 %files core-libs
 %defattr(-, root, root)
 %{plymouth_libdir}/libply.so.*
-%{_libdir}/libply-splash-core.so.*
+%{plymouth_libdir}/libply-splash-core.so.*
+%{_libdir}/libply-boot-client.so.*
 %dir %{_libdir}/plymouth
 
 %files graphics-libs
@@ -470,6 +479,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Jul 23 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100723.1
+- Update to pre-release snapshot of 0.8.4
+
 * Thu Jan 14 2010 Ray Strode <rstrode@redhat.com> 0.8.0-0.20100114.2
 - Don't link plymouthd against libpng either
 
