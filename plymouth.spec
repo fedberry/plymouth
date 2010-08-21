@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20100723.1%{?dist}
+Release: 0.20100821.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -479,6 +479,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sat Aug 21 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100821.1
+- Update to newer pre-release snapshot of 0.8.4
+- Fix bizarre-o animation during boot up.
+
 * Fri Jul 23 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100723.1
 - Update to pre-release snapshot of 0.8.4
 
