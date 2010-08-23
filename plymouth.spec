@@ -1,11 +1,12 @@
 %define plymouthdaemon_execdir /sbin
 %define plymouthclient_execdir /bin
 %define plymouth_libdir /%{_lib}
+%define plymouth_initrd_file /boot/initrd-plymouth.img
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20100821.1%{?dist}
+Release: 0.20100823.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -294,6 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 [ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
+%{_libexecdir}/plymouth/plymouth-generate-initrd
 
 %postun
 if [ $1 -eq 0 ]; then
@@ -312,6 +314,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinfinity" ]; then
         %{_sbindir}/plymouth-set-default-theme text
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -320,6 +323,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -328,6 +332,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -338,6 +343,7 @@ if [ $1 -eq 1 ]; then
 else
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme charge
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -346,6 +352,7 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "charge" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -479,6 +486,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Aug 23 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.1
+- Update to newer pre-release snapshot of 0.8.4
+- Generate separate initrd in /boot
+
 * Sat Aug 21 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100821.1
 - Update to newer pre-release snapshot of 0.8.4
 - Fix bizarre-o animation during boot up.
