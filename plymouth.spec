@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20100823.2%{?dist}
+Release: 0.20100823.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -94,6 +94,7 @@ including a boot log viewing application.
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
+Requires: findutils, coreutils, gzip, cpio
 
 %description scripts
 This package contains scripts that help integrate Plymouth with
@@ -137,7 +138,7 @@ while other images pulsate around during system boot up.
 Summary: Plymouth "Fade-In" theme
 Group: System Environment/Base
 Requires: %{name}-plugin-fade-throbber = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-theme
+Requires(post): plymouth-scripts
 Obsoletes: plymouth-plugin-fade-in <= 0.7.0-0.2009.05.08.2
 Provides: plymouth-plugin-fade-in = 0.7.0-0.2009.05.08.2
 
@@ -162,7 +163,7 @@ the screen.
 Summary: Plymouth "Spinfinity" theme
 Group: System Environment/Base
 Requires: %{name}-plugin-throbgress = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-theme
+Requires(post): plymouth-scripts
 Obsoletes: plymouth-plugin-spinfinity <= 0.7.0-0.2009.05.08.2
 Provides: plymouth-plugin-spinfinity = 0.7.0-0.2009.05.08.2
 
@@ -185,7 +186,7 @@ Plymouth. It features a corner image with animated flares.
 Summary: Plymouth "Solar" theme
 Group: System Environment/Base
 Requires: %{name}-plugin-space-flares = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-theme
+Requires(post): plymouth-scripts
 Obsoletes: plymouth-plugin-solar <= 0.7.0-0.2009.05.08.2
 Provides: plymouth-plugin-solar = 0.7.0-0.2009.05.08.2
 # We require this to fix upgrades (see bug 499940).
@@ -211,7 +212,7 @@ short, fast one-shot animation.
 Summary: Plymouth "Charge" plugin
 Group: System Environment/Base
 Requires: %{name}-plugin-two-step = %{version}-%{release}
-Requires(post): %{_sbindir}/plymouth-set-default-theme
+Requires(post): plymouth-scripts
 Provides: plymouth(system-theme) = %{version}-%{release}
 
 %description theme-charge
@@ -249,7 +250,6 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
 
 %build
 %configure --enable-tracing --disable-tests                      \
-           --without-default-plugin                              \
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
            --with-background-start-color-stop=0x0073B3           \
            --with-background-end-color-stop=0x00457E             \
@@ -490,6 +490,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Aug 26 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.3
+- Add more Requires
+
 * Thu Aug 26 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.2
 - Fix plymouth-update-initrd
   It's regressed to the pre-dracut version.  This commit fixes that.
