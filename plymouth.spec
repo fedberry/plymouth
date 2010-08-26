@@ -6,13 +6,14 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20100823.1%{?dist}
+Release: 0.20100823.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
+Source4: plymouth-update-initrd
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -283,6 +284,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 
+# Override plymouth-update-initrd to work dracut or mkinitrd
+cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth/plymouth-update-initrd
+
 # Drop glow, it's not very Fedora-y
 rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
 
@@ -486,6 +490,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Aug 26 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.2
+- Fix plymouth-update-initrd
+  It's regressed to the pre-dracut version.  This commit fixes that.
+
 * Mon Aug 23 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.1
 - Update to newer pre-release snapshot of 0.8.4
 - Generate separate initrd in /boot
