@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20100823.3%{?dist}
+Release: 0.20100823.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -94,7 +94,7 @@ including a boot log viewing application.
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
-Requires: findutils, coreutils, gzip, cpio
+Requires: findutils, coreutils, gzip, cpio, dracut
 
 %description scripts
 This package contains scripts that help integrate Plymouth with
@@ -490,6 +490,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Sep 01 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.4
+- Add more Requirse
+
 * Thu Aug 26 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20100823.3
 - Add more Requires
 
