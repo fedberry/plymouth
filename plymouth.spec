@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20101119.2%{?dist}
+Release: 0.20101119.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -366,9 +366,12 @@ fi
 %doc AUTHORS NEWS README
 %dir %{_datadir}/plymouth
 %dir %{_datadir}/plymouth/themes
+%dir %{_datadir}/plymouth/themes/details
+%dir %{_datadir}/plymouth/themes/text
 %dir %{_libexecdir}/plymouth
 %dir %{_localstatedir}/lib/plymouth
 %dir %{_libdir}/plymouth/renderers
+%dir %{_sysconfdir}/plymouth
 %config(noreplace) %{_sysconfdir}/plymouth/plymouthd.conf
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
@@ -483,6 +486,7 @@ fi
 
 %files theme-script
 %defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/script
 %{_datadir}/plymouth/themes/script/*.png
 %{_datadir}/plymouth/themes/script/script.script
 %{_datadir}/plymouth/themes/script/script.plymouth
@@ -491,6 +495,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sat Jan 29 2011 Ville Skyttä <ville.skytta@iki.fi> - 0.8.4-0.20101119.3
+- Dir ownership fixes (#645044).
+
 * Fri Nov 19 2010 Ray Strode <rstrode@redhat.com> 0.8.4-0.20101119.2
 - Fix serial console issue eparis was seeing
 
