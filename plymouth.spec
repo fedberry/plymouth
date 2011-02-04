@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20101119.3%{?dist}
+Release: 0.20101119.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -31,6 +31,8 @@ BuildRequires: kernel-headers
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
 Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
+Obsoletes: plymouth-gdm-hooks < 0.8.4-0.2010119.4
+Obsoletes: plymouth-utils < 0.8.4-0.2010119.4
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -81,16 +83,6 @@ Requires: pkgconfig
 This package contains the libply and libplybootsplash libraries
 and headers needed to develop 3rd party splash plugins for Plymouth.
 
-%package utils
-Summary: Plymouth related utilities
-Group: Applications/System
-Requires: %{name} = %{version}-%{release}
-BuildRequires: gtk2-devel
-
-%description utils
-This package contains utilities that integrate with Plymouth
-including a boot log viewing application.
-
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
@@ -99,18 +91,6 @@ Requires: findutils, coreutils, gzip, cpio, dracut
 %description scripts
 This package contains scripts that help integrate Plymouth with
 the system.
-
-%package gdm-hooks
-Summary: Plymouth GDM integration
-Group: Applications/System
-Requires: gdm >= 1:2.22.0
-Requires: plymouth-utils
-Requires: %{name} = %{version}-%{release}
-
-%description gdm-hooks
-This package contains support files for integrating Plymouth with GDM
-Namely, it adds hooks to show boot messages at the login screen in the
-event start-up services fail.
 
 %package plugin-label
 Summary: Plymouth label plugin
@@ -257,7 +237,7 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --enable-gdm-transition                               \
            --with-system-root-install                            \
            --with-rhgb-compat-link                               \
-           --with-log-viewer
+           --without-log-viewer
 
 make
 
@@ -421,14 +401,6 @@ fi
 %{_libexecdir}/plymouth/plymouth-generate-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
 
-%files utils
-%defattr(-, root, root)
-%{_bindir}/plymouth-log-viewer
-
-%files gdm-hooks
-%defattr(-, root, root)
-%{_datadir}/gdm/autostart/LoginWindow/plymouth-log-viewer.desktop
-
 %files plugin-label
 %defattr(-, root, root)
 %{_libdir}/plymouth/label.so
@@ -495,6 +467,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Feb 04 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20101119.4
+- Drop log viewer
+
 * Sat Jan 29 2011 Ville Skyttä <ville.skytta@iki.fi> - 0.8.4-0.20101119.3
 - Dir ownership fixes (#645044).
 
