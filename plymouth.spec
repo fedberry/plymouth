@@ -78,6 +78,7 @@ Summary: Libraries and headers for writing Plymouth splash plugins
 Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
+BuildRequires: pkgconfig(gtk+-2.0)
 
 %description devel
 This package contains the libply and libplybootsplash libraries
