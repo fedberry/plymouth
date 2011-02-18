@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110209.2%{?dist}
+Release: 0.20110419.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -468,6 +468,11 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Feb 18 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110419.1
+- unlock tty when reopening in case it spontaenously goes bonkers
+  and we need to fix it up
+  Resolves: #655538
+
 * Wed Feb 09 2011 Christopher Aillon <caillon@redhat.com> 0.8.4-0.20110209.2
 - Fix up obsoletes typo
 
