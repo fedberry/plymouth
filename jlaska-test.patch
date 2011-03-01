@@ -1,0 +1,34 @@
+From 502d5951aa5b8ece34fa21032d513254ef146f69 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Tue, 1 Mar 2011 17:26:16 -0500
+Subject: [PATCH] terminal: apply terminal settings immediately
+
+---
+ src/libply-splash-core/ply-terminal.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/libply-splash-core/ply-terminal.c b/src/libply-splash-core/ply-terminal.c
+index 3f126bc..3e6e8cc 100644
+--- a/src/libply-splash-core/ply-terminal.c
++++ b/src/libply-splash-core/ply-terminal.c
+@@ -272,7 +272,7 @@ ply_terminal_set_buffered_input (ply_terminal_t *terminal)
+       term_attributes.c_oflag |= OPOST;
+       term_attributes.c_lflag |= ECHO | ICANON | ISIG | IEXTEN;
+ 
+-      if (tcsetattr (terminal->fd, TCSAFLUSH, &term_attributes) != 0)
++      if (tcsetattr (terminal->fd, TCSANOW, &term_attributes) != 0)
+         return false;
+ 
+       terminal->is_unbuffered = false;
+@@ -280,7 +280,7 @@ ply_terminal_set_buffered_input (ply_terminal_t *terminal)
+       return true;
+     }
+ 
+-  if (tcsetattr (terminal->fd, TCSAFLUSH, &terminal->original_term_attributes) != 0)
++  if (tcsetattr (terminal->fd, TCSANOW, &terminal->original_term_attributes) != 0)
+     return false;
+ 
+   terminal->is_unbuffered = false;
+-- 
+1.7.4.1
+
