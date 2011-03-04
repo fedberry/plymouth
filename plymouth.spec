@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110419.1.jlaskatest%{?dist}
+Release: 0.1.20110304.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -33,8 +33,6 @@ Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
-
-Patch0: jlaska-test.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -227,7 +225,6 @@ plugin.
 
 %prep
 %setup -q
-%patch0 -p1 -b .jlaska-test
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -471,8 +468,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Tue Mar 01 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110419.1.jlaskatest
-- jlaska test
+* Fri Mar 04 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.1.20110304.1
+- retry reopening tty if we get EIO
+  Hopefully Resolves: #681167
 
 * Fri Feb 18 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110419.1
 - unlock tty when reopening in case it spontaenously goes bonkers
