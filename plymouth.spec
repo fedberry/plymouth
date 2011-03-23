@@ -223,6 +223,16 @@ This package contains the "script" boot splash theme for
 Plymouth. It it is a simple example theme the uses the "script"
 plugin.
 
+%package theme-spinner
+Summary: Plymouth "Spinner" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-two-step = %{version}-%{release}
+Requires(post): plymouth-scripts
+
+%description theme-spinner
+This package contains the "spinner" boot splash theme for
+Plymouth. It features a small spinner on a dark background.
+
 %prep
 %setup -q
 
@@ -308,6 +318,15 @@ fi
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
+    fi
+fi
+
+%postun theme-spinner
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinner" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
         %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
@@ -418,6 +437,12 @@ fi
 %{_datadir}/plymouth/themes/fade-in/lock.png
 %{_datadir}/plymouth/themes/fade-in/star.png
 %{_datadir}/plymouth/themes/fade-in/fade-in.plymouth
+
+%files theme-spinner
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/spinner
+%{_datadir}/plymouth/themes/spinner/*.png
+%{_datadir}/plymouth/themes/spinner/spinner.plymouth
 
 %files plugin-throbgress
 %defattr(-, root, root)
