@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110809.1%{?dist}
+Release: 0.20110822.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -223,6 +223,16 @@ This package contains the "script" boot splash theme for
 Plymouth. It it is a simple example theme the uses the "script"
 plugin.
 
+%package theme-spinner
+Summary: Plymouth "Spinner" theme
+Group: System Environment/Base
+Requires: %{name}-plugin-two-step = %{version}-%{release}
+Requires(post): plymouth-scripts
+
+%description theme-spinner
+This package contains the "spinner" boot splash theme for
+Plymouth. It features a small spinner on a dark background.
+
 %prep
 %setup -q
 
@@ -235,7 +245,8 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --with-background-start-color-stop=0x0073B3           \
            --with-background-end-color-stop=0x00457E             \
            --with-background-color=0x3391cd                      \
-           --enable-gdm-transition                               \
+           --disable-gdm-transition                              \
+           --enable-systemd-integration                          \
            --with-system-root-install                            \
            --with-rhgb-compat-link                               \
            --without-log-viewer
@@ -308,6 +319,15 @@ fi
 export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
+        %{_sbindir}/plymouth-set-default-theme --reset
+        %{_libexecdir}/plymouth/plymouth-generate-initrd
+    fi
+fi
+
+%postun theme-spinner
+export LIB=%{_lib}
+if [ $1 -eq 0 ]; then
+    if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinner" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
         %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
@@ -419,6 +439,12 @@ fi
 %{_datadir}/plymouth/themes/fade-in/star.png
 %{_datadir}/plymouth/themes/fade-in/fade-in.plymouth
 
+%files theme-spinner
+%defattr(-, root, root)
+%dir %{_datadir}/plymouth/themes/spinner
+%{_datadir}/plymouth/themes/spinner/*.png
+%{_datadir}/plymouth/themes/spinner/spinner.plymouth
+
 %files plugin-throbgress
 %defattr(-, root, root)
 %{_libdir}/plymouth/throbgress.so
@@ -468,6 +494,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Aug 22 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110822.1
+- Update to latest git snapshot
+- Reintroduce accidentally dropped spinner theme and systemd integration
+
 * Tue Aug 09 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110809.1
 - Rebuild
 
