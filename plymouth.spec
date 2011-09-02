@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110822.1%{?dist}
+Release: 0.20110822.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -494,6 +494,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Sep 02 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110822.2
+- Make plymouth background dark gray at the request of Mo / design
+  team.
+
 * Mon Aug 22 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110822.1
 - Update to latest git snapshot
 - Reintroduce accidentally dropped spinner theme and systemd integration
