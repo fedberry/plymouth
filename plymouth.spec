@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110809.2%{?dist}
+Release: 0.20110822.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -245,7 +245,8 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --with-background-start-color-stop=0x0073B3           \
            --with-background-end-color-stop=0x00457E             \
            --with-background-color=0x3391cd                      \
-           --enable-gdm-transition                               \
+           --disable-gdm-transition                              \
+           --enable-systemd-integration                          \
            --with-system-root-install                            \
            --with-rhgb-compat-link                               \
            --without-log-viewer
@@ -493,11 +494,19 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Mon Nov 07 2011 Adam Jackson <ajax@redhat.com> 0.8.4-0.20110809.2
+* Tue Nov 08 2011 Adam Jackson <ajax@redhat.com> 0.8.4-0.20110822.3
 - Rebuild for libpng 1.5
 
+* Fri Sep 02 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110822.2
+- Make plymouth background dark gray at the request of Mo / design
+  team.
+
+* Mon Aug 22 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110822.1
+- Update to latest git snapshot
+- Reintroduce accidentally dropped spinner theme and systemd integration
+
 * Tue Aug 09 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110809.1
-- Update to latest snapshot
+- Rebuild
 
 * Fri Mar 04 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.1.20110304.1
 - retry reopening tty if we get EIO
