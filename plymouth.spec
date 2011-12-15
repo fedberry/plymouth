@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110822.3%{?dist}
+Release: 0.20110809.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -292,6 +292,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 [ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
+
+%posttrans
 %{_libexecdir}/plymouth/plymouth-generate-initrd
 
 %postun
@@ -494,6 +496,11 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Dec 15 2011 Ray Strode <rstrode@redhat.com> 0.8.4-0.20110809.3
+- Change spec based on suggestion from Nicolas Chauvet <kwizart@gmail.com>
+  to fix scriptlet error during livecd creation
+  Resolves: #666419
+
 * Tue Nov 08 2011 Adam Jackson <ajax@redhat.com> 0.8.4-0.20110822.3
 - Rebuild for libpng 1.5
 
