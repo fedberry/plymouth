@@ -1,12 +1,12 @@
-%define plymouthdaemon_execdir /sbin
-%define plymouthclient_execdir /bin
-%define plymouth_libdir /%{_lib}
+%define plymouthdaemon_execdir %{_sbindir}
+%define plymouthclient_execdir %{_bindir}
+%define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110810.3%{?dist}
+Release: 0.20110810.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -21,6 +21,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
+Conflicts: filesystem < 3
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libdrm_intel)
@@ -247,7 +248,7 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --with-background-color=0x3391cd                      \
            --disable-gdm-transition                              \
            --enable-systemd-integration                          \
-           --with-system-root-install                            \
+           --without-system-root-install                         \
            --with-rhgb-compat-link                               \
            --without-log-viewer
 
@@ -264,9 +265,6 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/plymouth/glow.so
 
 find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} \;
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} \;
-
-# Temporary symlink until rc.sysinit is fixed
-(cd $RPM_BUILD_ROOT%{_bindir}; ln -s ../../bin/plymouth)
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
@@ -496,6 +494,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 0.8.4-0.20110810.4
+- install everything in /usr
+  https://fedoraproject.org/wiki/Features/UsrMove
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.4-0.20110810.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
