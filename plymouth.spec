@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20110810.4%{?dist}
+Release: 0.20110810.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -88,7 +88,7 @@ and headers needed to develop 3rd party splash plugins for Plymouth.
 %package scripts
 Summary: Plymouth related scripts
 Group: Applications/System
-Requires: findutils, coreutils, gzip, cpio, dracut
+Requires: findutils, coreutils, gzip, cpio, dracut, plymouth
 
 %description scripts
 This package contains scripts that help integrate Plymouth with
@@ -494,6 +494,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Feb 20 2012 Adam Williamson <awilliam@redhat.com> 0.8.4-0.20110810.5
+- make plymouth-scripts require plymouth (RH #794894)
+
 * Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 0.8.4-0.20110810.4
 - install everything in /usr
   https://fedoraproject.org/wiki/Features/UsrMove
