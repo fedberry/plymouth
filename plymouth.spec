@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20120319.1%{?dist}
+Release: 0.20120319.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -252,7 +252,7 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --enable-systemd-integration                          \
            --without-system-root-install                         \
            --with-rhgb-compat-link                               \
-%ifarch %{ix86} x86_64 ia64
+%ifnarch %{ix86} x86_64 ia64
            --disable-libdrm_intel                                \
 %endif
            --without-log-viewer
@@ -499,6 +499,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Mar 20 2012 Daniel Drake <dsd@laptop.org> 0.8.4-0.20120319.1
+- Don't try to build against libdrm_intel on non-intel architectures
+
 * Mon Mar 19 2012 Ray Strode <rstrode@redhat.com> 0.8.4-0.20120319.1
 - Update to latest snapshot
 
