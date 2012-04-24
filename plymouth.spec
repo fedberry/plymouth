@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.4
-Release: 0.20120319.2%{?dist}
+Release: 0.20120319.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -250,6 +250,7 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --with-background-color=0x3391cd                      \
            --disable-gdm-transition                              \
            --enable-systemd-integration                          \
+           --disable-libdrm_nouveau                              \
            --without-system-root-install                         \
            --with-rhgb-compat-link                               \
 %ifnarch %{ix86} x86_64 ia64
@@ -499,6 +500,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Apr 24 2012 Richard Hughes <rhughes@redhat.com> 0.8.4-0.20120319.3
+- Disable the nouveau driver as I've broken it with the new libdrm ABI
+
 * Tue Mar 20 2012 Daniel Drake <dsd@laptop.org> 0.8.4-0.20120319.1
 - Don't try to build against libdrm_intel on non-intel architectures
 
