@@ -5,8 +5,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.4
-Release: 0.20120319.3%{?dist}
+Version: 0.8.5.1
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -24,11 +24,6 @@ Requires: initscripts >= 8.83-1
 Conflicts: filesystem < 3
 
 BuildRequires: pkgconfig(libdrm)
-%ifarch %{ix86} x86_64 ia64
-BuildRequires: pkgconfig(libdrm_intel)
-%endif
-BuildRequires: pkgconfig(libdrm_radeon)
-BuildRequires: pkgconfig(libdrm_nouveau)
 BuildRequires: kernel-headers
 
 Obsoletes: plymouth-text-and-details-only < %{version}-%{release}
@@ -250,12 +245,8 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --with-background-color=0x3391cd                      \
            --disable-gdm-transition                              \
            --enable-systemd-integration                          \
-           --disable-libdrm_nouveau                              \
            --without-system-root-install                         \
            --with-rhgb-compat-link                               \
-%ifnarch %{ix86} x86_64 ia64
-           --disable-libdrm_intel                                \
-%endif
            --without-log-viewer
 
 make
@@ -396,6 +387,7 @@ fi
 %{_localstatedir}/spool/plymouth
 %{_mandir}/man?/*
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
+/lib/systemd/system/plymouth-*.service
 
 %files devel
 %defattr(-, root, root)
@@ -500,6 +492,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Jun 06 2012 Ray Strode <rstrode@redhat.com> 0.8.5.1-1
+- Update to latest release
+
 * Tue Apr 24 2012 Richard Hughes <rhughes@redhat.com> 0.8.4-0.20120319.3
 - Disable the nouveau driver as I've broken it with the new libdrm ABI
 
