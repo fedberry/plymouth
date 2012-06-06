@@ -22,6 +22,7 @@ Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 Conflicts: filesystem < 3
+Conflicts: systemd < 185-3
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: kernel-headers
@@ -494,6 +495,8 @@ fi
 %changelog
 * Wed Jun 06 2012 Ray Strode <rstrode@redhat.com> 0.8.5.1-1
 - Update to latest release
+- Ship systemd service files
+- Conflict with old systemd
 
 * Tue Apr 24 2012 Richard Hughes <rhughes@redhat.com> 0.8.4-0.20120319.3
 - Disable the nouveau driver as I've broken it with the new libdrm ABI
