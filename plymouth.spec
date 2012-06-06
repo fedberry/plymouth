@@ -388,7 +388,7 @@ fi
 %{_localstatedir}/spool/plymouth
 %{_mandir}/man?/*
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
-/lib/systemd/system/plymouth-*.service
+%{_prefix}/lib/systemd/system/plymouth-*.service
 
 %files devel
 %defattr(-, root, root)
