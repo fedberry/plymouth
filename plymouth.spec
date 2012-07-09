@@ -5,8 +5,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.5.1
-Release: 3%{?dist}
+Version: 0.8.6
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -390,7 +390,7 @@ fi
 %{_mandir}/man?/*
 %ghost %{_localstatedir}/lib/plymouth/boot-duration
 %if 0%{?fedora} > 17 || 0%{?rhel} > 6
-/lib/systemd/system/plymouth-*.service
+/lib/systemd/system/*
 %else
 %{_prefix}/lib/systemd/system/plymouth-*.service
 %endif
@@ -498,6 +498,12 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Jul 09 2012 Ray Strode <rstrode@redhat.com> 0.8.6-1
+- Update to 0.8.6
+- Fixes encrypted fs bug
+  Resolves: #830482
+- Adds support for offline package updates
+
 * Mon Jun 25 2012 Adam Jackson <ajax@redhat.com> 0.8.5.1-3
 - Rebuild without libkms
 
