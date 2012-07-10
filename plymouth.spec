@@ -5,7 +5,7 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.6
+Version: 0.8.6.1
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -498,6 +498,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Jul 10 2012 Ray Strode <rstrode@redhat.com> 0.8.6.1-1
+- Update to 0.8.6.1 since I mucked up 0.8.6
+  Resolves: #830482
+
 * Mon Jul 09 2012 Ray Strode <rstrode@redhat.com> 0.8.6-1
 - Update to 0.8.6
 - Fixes encrypted fs bug
