@@ -5,8 +5,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.6.1
-Release: 3%{?dist}
+Version: 0.8.6.2
+Release: 0.2012.07.23%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -502,6 +502,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Jul 23 2012 Ray Strode <rstrode@redhat.com> 0.8.6.2-0.2012.07.23
+- One more crack at #830482 (will probably need additional fixes tomorrow)
+
 * Mon Jul 23 2012 Tom Callaway <spot@fedoraproject.org> - 0.8.6.1-3
 - fix bz704658 (thanks to Ian Pilcher for the patch), resolves issue where spinfinity theme
   never goes idle and thus, never exits to gdm
