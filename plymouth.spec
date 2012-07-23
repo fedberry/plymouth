@@ -14,7 +14,6 @@ Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
 Source4: plymouth-update-initrd
-Patch0: plymouth-0.8.6.1-fix-fail-to-start.patch
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -235,9 +234,6 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
-# Resolves bz 704658
-# GDM doesn't start properly when spinfinity theme is used.
-%patch0 -p1 -b .fix-fail-to-start
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
