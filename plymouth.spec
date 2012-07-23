@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.6.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -14,6 +14,7 @@ Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
 Source4: plymouth-update-initrd
+Patch0: plymouth-0.8.6.1-fix-fail-to-start.patch
 
 URL: http://freedesktop.org/software/plymouth/releases
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -234,6 +235,9 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
+# Resolves bz 704658
+# GDM doesn't start properly when spinfinity theme is used.
+%patch0 -p1 -b .fix-fail-to-start
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -498,6 +502,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Mon Jul 23 2012 Tom Callaway <spot@fedoraproject.org> - 0.8.6.1-3
+- fix bz704658 (thanks to Ian Pilcher for the patch), resolves issue where spinfinity theme
+  never goes idle and thus, never exits to gdm
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.6.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

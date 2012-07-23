@@ -1,0 +1,35 @@
+diff -up plymouth-0.8.6.1/src/plugins/splash/throbgress/plugin.c.fix-fail-to-start plymouth-0.8.6.1/src/plugins/splash/throbgress/plugin.c
+--- plymouth-0.8.6.1/src/plugins/splash/throbgress/plugin.c.fix-fail-to-start	2012-07-23 10:11:27.659035587 -0400
++++ plymouth-0.8.6.1/src/plugins/splash/throbgress/plugin.c	2012-07-23 10:12:39.746036670 -0400
+@@ -103,6 +103,7 @@ struct _ply_boot_splash_plugin
+   uint32_t root_is_mounted : 1;
+   uint32_t is_visible : 1;
+   uint32_t is_animating : 1;
++  uint32_t is_idle : 1;
+ };
+ 
+ ply_boot_splash_plugin_interface_t * ply_boot_splash_plugin_get_interface (void);
+@@ -292,6 +293,8 @@ view_start_animation (view_t *view)
+ 
+   plugin = view->plugin;
+ 
++  plugin->is_idle = false;
++
+   assert (plugin != NULL);
+   assert (plugin->loop != NULL);
+ 
+@@ -804,7 +807,14 @@ static void
+ become_idle (ply_boot_splash_plugin_t *plugin,
+              ply_trigger_t            *idle_trigger)
+ {
++  if (plugin->is_idle)
++    {
++      ply_trigger_pull (idle_trigger, NULL);
++      return;
++    }
++
+   stop_animation (plugin, idle_trigger);
++  plugin->is_idle = true;
+ }
+ 
+ static void
