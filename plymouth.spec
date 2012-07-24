@@ -95,6 +95,7 @@ the system.
 %package plugin-label
 Summary: Plymouth label plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 BuildRequires: pango-devel >= 1.21.0
 BuildRequires: cairo-devel
@@ -107,6 +108,7 @@ graphical boot splashes using pango and cairo.
 %package plugin-fade-throbber
 Summary: Plymouth "Fade-Throbber" plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 
 %description plugin-fade-throbber
@@ -130,6 +132,7 @@ while stars twinkle around the logo during system boot up.
 %package plugin-throbgress
 Summary: Plymouth "Throbgress" plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
@@ -155,6 +158,7 @@ spins in the shape of an infinity sign.
 %package plugin-space-flares
 Summary: Plymouth "space-flares" plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
@@ -179,6 +183,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 %package plugin-two-step
 Summary: Plymouth "two-step" plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
@@ -203,6 +208,7 @@ and finally burst into full form.
 %package plugin-script
 Summary: Plymouth "script" plugin
 Group: System Environment/Base
+Requires: %{name} = %{version}-%{release}
 Requires: %{name}-libs = %{version}-%{release}
 
 %description plugin-script
