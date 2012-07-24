@@ -15,7 +15,7 @@ Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
 Source4: plymouth-update-initrd
 
-URL: http://freedesktop.org/software/plymouth/releases
+URL: http://www.freedesktop.org/wiki/Software/Plymouth
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires: system-logos
