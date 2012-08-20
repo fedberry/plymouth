@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.6.2
-Release: 0.2012.07.23%{?dist}
+Release: 1.2012.07.23%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -14,6 +14,8 @@ Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-set-default-plugin
 Source4: plymouth-update-initrd
+
+Patch0: plymouth-fix-udev-trigger.patch
 
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -240,6 +242,7 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
+%patch0 -p1 -b .trigger
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -504,6 +507,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Aug 21 2012 Dave Airlie <airlied@redhat.com> 0.8.6.2-1.2012.07.23
+- fix plymouth race at bootup breaking efi/vesa handoff.
+- fix version number - its against fedora package policy to have 0.year
+
 * Mon Jul 23 2012 Ray Strode <rstrode@redhat.com> 0.8.6.2-0.2012.07.23
 - One more crack at #830482 (will probably need additional fixes tomorrow)
 

@@ -1,0 +1,12 @@
+diff -up plymouth-0.8.6.2/systemd-units/plymouth-start.service.in.dma plymouth-0.8.6.2/systemd-units/plymouth-start.service.in
+--- plymouth-0.8.6.2/systemd-units/plymouth-start.service.in.dma	2012-08-21 09:11:22.906284758 +1000
++++ plymouth-0.8.6.2/systemd-units/plymouth-start.service.in	2012-08-21 09:11:32.707345054 +1000
+@@ -2,7 +2,7 @@
+ Description=Show Plymouth Boot Screen
+ DefaultDependencies=no
+ Wants=systemd-ask-password-plymouth.path
+-After=systemd-vconsole-setup.service systemd-udev-settle.service
++After=systemd-vconsole-setup.service systemd-udev-trigger.service
+ Before=systemd-ask-password-plymouth.service
+ ConditionKernelCommandLine=!plymouth.enable=0
+ ConditionPathExists=!@plymouthruntimedir@/pid
