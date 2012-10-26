@@ -5,7 +5,7 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.7
+Version: 0.8.8
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
@@ -504,6 +504,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Oct 26 2012 Ray Strode <rstrode@redhat.com> 0.8.8-1
+- Latest upstream release
+- includes systemd fixes and system update fixes
+
 * Tue Aug 21 2012 Ray Strode <rstrode@redhat.com> 0.8.7-1
 - Latest upstream release
 - includes systemd fixes
