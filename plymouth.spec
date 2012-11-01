@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.8
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -32,6 +32,8 @@ Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
+
+Patch0: fix-crash.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -240,6 +242,7 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
+%patch0 -p1 -b .fix-crash
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -504,6 +507,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Nov 01 2012 Ray Strode <rstrode@redhat.com> 0.8.8-2
+- Fix crash when deactivating multiple times
+  Related: #870695
+
 * Fri Oct 26 2012 Ray Strode <rstrode@redhat.com> 0.8.8-1
 - Latest upstream release
 - includes systemd fixes and system update fixes
