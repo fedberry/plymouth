@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.8
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -507,6 +507,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Fri Nov 02 2012 Ray Strode <rstrode@redhat.com> 0.8.8-3
+- More boot blocking fixes
+  Related: #870695
+
 * Thu Nov 01 2012 Ray Strode <rstrode@redhat.com> 0.8.8-2
 - Fix crash when deactivating multiple times
   Related: #870695
