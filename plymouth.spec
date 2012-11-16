@@ -6,14 +6,12 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.8
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
-Source3: plymouth-set-default-plugin
-Source4: plymouth-update-initrd
 
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -283,15 +281,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 
-# Override plymouth-update-initrd to work dracut or mkinitrd
-cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth/plymouth-update-initrd
-
 # Drop glow, it's not very Fedora-y
 rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
-
-# Add compat script for upgrades
-cp $RPM_SOURCE_DIR/plymouth-set-default-plugin $RPM_BUILD_ROOT%{_sbindir}
-chmod +x $RPM_BUILD_ROOT%{_sbindir}/plymouth-set-default-plugin
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -430,7 +421,6 @@ fi
 %files scripts
 %defattr(-, root, root)
 %{_sbindir}/plymouth-set-default-theme
-%{_sbindir}/plymouth-set-default-plugin
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-generate-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
@@ -507,6 +497,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Nov 15 2012 Ray Strode <rstrode@redhat.com> 0.8.8-4
+- Drop set-default-plugin compat script
+- Just use upstream update-initrd
+
 * Fri Nov 02 2012 Ray Strode <rstrode@redhat.com> 0.8.8-3
 - More boot blocking fixes
   Related: #870695
