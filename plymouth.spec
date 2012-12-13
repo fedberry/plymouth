@@ -6,7 +6,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.8
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -32,6 +32,7 @@ Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
 
 Patch0: fix-crash.patch
+Patch1: fix-fed-up.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -241,6 +242,7 @@ Plymouth. It features a small spinner on a dark background.
 %prep
 %setup -q
 %patch0 -p1 -b .fix-crash
+%patch1 -p1 -b .fix-fed-up
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -497,6 +499,10 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Dec 13 2012 Ray Strode <rstrode@redhat.com> 0.8.8-5
+- Ensure fedup gets right splash screen
+  Related: #879295
+
 * Thu Nov 15 2012 Ray Strode <rstrode@redhat.com> 0.8.8-4
 - Drop set-default-plugin compat script
 - Just use upstream update-initrd
