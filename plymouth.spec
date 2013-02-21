@@ -5,15 +5,13 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.7
-Release: 2%{?dist}
+Version: 0.8.8
+Release: 6%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
-Source3: plymouth-set-default-plugin
-Source4: plymouth-update-initrd
 
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -32,6 +30,9 @@ Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
+
+Patch0: fix-crash.patch
+Patch1: fix-fed-up.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -240,6 +241,8 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
+%patch0 -p1 -b .fix-crash
+%patch1 -p1 -b .fix-fed-up
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -280,15 +283,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
 
-# Override plymouth-update-initrd to work dracut or mkinitrd
-cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth/plymouth-update-initrd
-
 # Drop glow, it's not very Fedora-y
 rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
-
-# Add compat script for upgrades
-cp $RPM_SOURCE_DIR/plymouth-set-default-plugin $RPM_BUILD_ROOT%{_sbindir}
-chmod +x $RPM_BUILD_ROOT%{_sbindir}/plymouth-set-default-plugin
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -427,7 +423,6 @@ fi
 %files scripts
 %defattr(-, root, root)
 %{_sbindir}/plymouth-set-default-theme
-%{_sbindir}/plymouth-set-default-plugin
 %{_libexecdir}/plymouth/plymouth-update-initrd
 %{_libexecdir}/plymouth/plymouth-generate-initrd
 %{_libexecdir}/plymouth/plymouth-populate-initrd
@@ -504,8 +499,28 @@ fi
 %defattr(-, root, root)
 
 %changelog
-* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.7-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+* Thu Feb 21 2013 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.8-6
+- Merge newer F18 release into rawhide
+
+* Thu Dec 13 2012 Ray Strode <rstrode@redhat.com> 0.8.8-5
+- Ensure fedup gets right splash screen
+  Related: #879295
+
+* Thu Nov 15 2012 Ray Strode <rstrode@redhat.com> 0.8.8-4
+- Drop set-default-plugin compat script
+- Just use upstream update-initrd
+
+* Fri Nov 02 2012 Ray Strode <rstrode@redhat.com> 0.8.8-3
+- More boot blocking fixes
+  Related: #870695
+
+* Thu Nov 01 2012 Ray Strode <rstrode@redhat.com> 0.8.8-2
+- Fix crash when deactivating multiple times
+  Related: #870695
+
+* Fri Oct 26 2012 Ray Strode <rstrode@redhat.com> 0.8.8-1
+- Latest upstream release
+- includes systemd fixes and system update fixes
 
 * Tue Aug 21 2012 Ray Strode <rstrode@redhat.com> 0.8.7-1
 - Latest upstream release
