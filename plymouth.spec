@@ -5,8 +5,8 @@
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.8
-Release: 6%{?dist}
+Version: 0.8.9
+Release: 0.2013.03.26.0%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -30,9 +30,6 @@ Obsoletes: plymouth-plugin-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-theme-pulser < 0.7.0-0.2009.05.08.2
 Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
-
-Patch0: fix-crash.patch
-Patch1: fix-fed-up.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -241,8 +238,6 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-crash
-%patch1 -p1 -b .fix-fed-up
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -499,6 +494,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Tue Mar 26 2013 Ray Strode <rstrode@redhat.com> 0.8.9-0.2013.03.26.0
+- Update to snapshot to fix systemd vconsole issue
+
 * Thu Feb 21 2013 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.8-6
 - Merge newer F18 release into rawhide
 
