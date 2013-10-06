@@ -3,10 +3,12 @@
 %define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
+%define snapshot_date .2013.08.14
+
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 0.1.2013.08.14.0%{?dist}
+Release: 1%{?snapshot_date}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -491,6 +493,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sun Oct 06 2013 Kalev Lember <kalevlember@gmail.com> - 0.8.9-1.2013.08.14
+- Make sure the release number compares higher than the previous builds
+
 * Wed Aug 14 2013 Ray Strode <rstrode@redhat.com> 0.8.9-0.1.2013.08.14.0
 - Update to snapshot to fix system units
 
