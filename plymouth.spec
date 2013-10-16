@@ -254,6 +254,7 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --enable-systemd-integration                          \
            --without-system-root-install                         \
            --without-log-viewer					 \
+           --without-rhgb-compat-link                            \
            --disable-libkms
 
 make
