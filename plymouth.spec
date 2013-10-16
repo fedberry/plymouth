@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 1%{?snapshot_date}%{?dist}
+Release: 2%{?snapshot_date}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -253,7 +253,6 @@ sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
            --disable-gdm-transition                              \
            --enable-systemd-integration                          \
            --without-system-root-install                         \
-           --with-rhgb-compat-link                               \
            --without-log-viewer					 \
            --disable-libkms
 
@@ -375,7 +374,6 @@ fi
 %{plymouthdaemon_execdir}/plymouthd
 %{plymouthclient_execdir}/plymouth
 %{_bindir}/plymouth
-%{_bindir}/rhgb-client
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
 %{_libdir}/plymouth/renderers/drm*
@@ -493,6 +491,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Wed Oct 16 2013 Ray Strode <rstrode@redhat.com> 0.8.9-2.2013.08.14
+- Drop rhgb-client compat link
+
 * Sun Oct 06 2013 Kalev Lember <kalevlember@gmail.com> - 0.8.9-1.2013.08.14
 - Make sure the release number compares higher than the previous builds
 
