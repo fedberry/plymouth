@@ -34,6 +34,7 @@ Obsoletes: plymouth-gdm-hooks < 0.8.4-0.20101119.4
 Obsoletes: plymouth-utils < 0.8.4-0.20101119.4
 
 Patch0: dont-timeout-waiting.patch
+Patch1: sysfs-tty-fix.patch
 
 %description
 Plymouth provides an attractive graphical boot animation in
