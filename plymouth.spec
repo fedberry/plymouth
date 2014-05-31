@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 4%{?snapshot_date}%{?dist}
+Release: 5%{?snapshot_date}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -18,7 +18,6 @@ Source2: charge.plymouth
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires: system-logos
 Requires(post): plymouth-scripts
 Requires: initscripts >= 8.83-1
 Conflicts: filesystem < 3
@@ -67,6 +66,7 @@ used by Plymouth.
 Summary: Plymouth graphics libraries
 Group: Development/Libraries
 Requires: %{name}-core-libs = %{version}-%{release}
+Requires: system-logos
 Obsoletes: %{name}-libs < %{version}-%{release}
 Provides: %{name}-libs = %{version}-%{release}
 BuildRequires: libpng-devel
@@ -497,6 +497,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sat May 31 2014 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-4.2013.08.15
+- Move system-logos dep to graphics-libs (no use on text/serial console minimal installs)
+
 * Thu Feb 20 2014 Ray Strode <rstrode@redhat.com> 0.8.9-4.2013.08.14
 - Fix splash after change in /sys/class/tty/console/active
 
