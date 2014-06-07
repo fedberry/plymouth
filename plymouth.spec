@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 5%{?snapshot_date}%{?dist}
+Release: 6%{?snapshot_date}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -497,6 +497,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.9-6.2013.08.14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Sat May 31 2014 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-4.2013.08.15
 - Move system-logos dep to graphics-libs (no use on text/serial console minimal installs)
 
