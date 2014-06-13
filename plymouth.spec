@@ -1045,7 +1045,7 @@ fi
 - Add the ability to show text prompts in graphical plugin
 - Fix crasher for users with encrypted disks
 
-* Fri Aug 23 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.08.22
+* Fri Aug 24 2008 Ray Strode <rstrode@redhat.com> 0.6.0-0.2008.08.22
 - Update to latest snapshot
 
 * Wed Aug 13 2008 Ray Strode <rstrode@redhat.com> 0.5.0-20.2008.08.13
@@ -1120,7 +1120,7 @@ fi
   needs work.  We need to separate distro default from
   user choice.
 
-* Thu Jul  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-1
+* Tue Jul  1 2008 Ray Strode <rstrode@redhat.com> - 0.5.0-1
 - Add new client "ask-for-password" command which feeds
   the user input to a program instead of standard output,
   and loops when the program returns non-zero exit status.
