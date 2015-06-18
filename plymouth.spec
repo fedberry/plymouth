@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 9%{?snapshot_date}%{?dist}
+Release: 10%{?snapshot_date}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
@@ -499,6 +499,9 @@ fi
 %defattr(-, root, root)
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.9-10.2013.08.14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed May 20 2015 Will Woods <wwoods@redhat.com> 0.8.9-9.2013.08.14
 - Fix theme override using PLYMOUTH_THEME_NAME (#1223344)
 
