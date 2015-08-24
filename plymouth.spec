@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 12%{?snapshot_date}%{?dist}
+Release: 13%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -189,7 +189,7 @@ and finally burst into full form.
 Summary: Plymouth "script" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-graphics--libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 
 %description plugin-script
 This package contains the "script" boot splash plugin for
@@ -453,6 +453,9 @@ fi
 %files system-theme
 
 %changelog
+* Mon Aug 24 2015 Kalev Lember <klember@redhat.com> 0.8.9-13.2013.08.14
+- Fix a typo in Requires
+
 * Mon Aug 24 2015 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-12.2013.08.14
 - Fix Requires for various libs subpackages
 
