@@ -189,7 +189,7 @@ and finally burst into full form.
 Summary: Plymouth "script" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-core-libs = %{version}-%{release}
+Requires: %{name}-graphics--libs = %{version}-%{release}
 
 %description plugin-script
 This package contains the "script" boot splash plugin for
