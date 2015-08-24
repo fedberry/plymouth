@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 11%{?snapshot_date}%{?dist}
+Release: 12%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -86,7 +86,7 @@ the system.
 Summary: Plymouth label plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 
 %description plugin-label
 This package contains the label control plugin for
@@ -97,7 +97,7 @@ graphical boot splashes using pango and cairo.
 Summary: Plymouth "Fade-Throbber" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 
 %description plugin-fade-throbber
 This package contains the "Fade-In" boot splash plugin for
@@ -119,7 +119,7 @@ while stars twinkle around the logo during system boot up.
 Summary: Plymouth "Throbgress" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
 %description plugin-throbgress
@@ -143,7 +143,7 @@ spins in the shape of an infinity sign.
 Summary: Plymouth "space-flares" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
 %description plugin-space-flares
@@ -164,7 +164,7 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 Summary: Plymouth "two-step" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
 
 %description plugin-two-step
@@ -189,7 +189,7 @@ and finally burst into full form.
 Summary: Plymouth "script" plugin
 Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
-Requires: %{name}-libs = %{version}-%{release}
+Requires: %{name}-core-libs = %{version}-%{release}
 
 %description plugin-script
 This package contains the "script" boot splash plugin for
@@ -453,7 +453,10 @@ fi
 %files system-theme
 
 %changelog
-* Mon Aug  3 2015 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-11.2013.08.14
+* Mon Aug 24 2015 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-12.2013.08.14
+- Fix Requires for various libs subpackages
+
+* Sun Aug 23 2015 Peter Robinson <pbrobinson@fedoraproject.org> 0.8.9-11.2013.08.14
 - Use %%license
 - Cleanup spec
 - Move drm render driver to graphics-libs sub package
