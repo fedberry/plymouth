@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 13%{?snapshot_date}%{?dist}
+Release: 15%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -20,6 +20,7 @@ Source2: charge.plymouth
 Patch0: dont-timeout-waiting.patch
 Patch1: sysfs-tty-fix.patch
 Patch2: fix-theme-override.patch
+Patch3: fix-updates.patch
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: kernel-headers
@@ -223,6 +224,7 @@ Plymouth. It features a small spinner on a dark background.
 %patch0 -p1 -b .dont-timeout-waiting
 %patch1 -p1 -b .sysfs-tty-fix
 %patch2 -p1 -b .fix-theme-override
+%patch3 -p1 -b .fix-updates
 
 # Change the default theme
 sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
@@ -453,6 +455,10 @@ fi
 %files system-theme
 
 %changelog
+* Mon Oct 26 2015 Ray Strode <rstrode@redhat.com> 0.8.9-10.2013.08.15
+- Fix updates with script and spinner themes
+  Resolves: #1267949
+
 * Mon Aug 24 2015 Kalev Lember <klember@redhat.com> 0.8.9-13.2013.08.14
 - Fix a typo in Requires
 
