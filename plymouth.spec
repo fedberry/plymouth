@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 15%{?snapshot_date}%{?dist}
+Release: 16%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -16,6 +16,7 @@ Group: System Environment/Base
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
 Source1: boot-duration
 Source2: charge.plymouth
+Source3: plymouth-update-initrd
 
 Patch0: dont-timeout-waiting.patch
 Patch1: sysfs-tty-fix.patch
@@ -257,6 +258,7 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
+cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth
 
 # Add charge, our new default
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/charge
@@ -455,7 +457,10 @@ fi
 %files system-theme
 
 %changelog
-* Mon Oct 26 2015 Ray Strode <rstrode@redhat.com> 0.8.9-10.2013.08.15
+* Sun Nov 15 2015 Ray Strode <rstrode@redhat.com> 0.8.9-16.2013.08.14
+- Fix plymouth-update-initrd script
+
+* Mon Oct 26 2015 Ray Strode <rstrode@redhat.com> 0.8.9-15.2013.08.15
 - Fix updates with script and spinner themes
   Resolves: #1267949
 
