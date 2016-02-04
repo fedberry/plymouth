@@ -8,7 +8,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.8.9
-Release: 16%{?snapshot_date}%{?dist}
+Release: 17%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -457,6 +457,9 @@ fi
 %files system-theme
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-17.2013.08.14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sun Nov 15 2015 Ray Strode <rstrode@redhat.com> 0.8.9-16.2013.08.14
 - Fix plymouth-update-initrd script
 
