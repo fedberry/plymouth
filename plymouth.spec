@@ -3,12 +3,12 @@
 %define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
-%define snapshot_date .2013.08.14
+%define snapshot_date 20160524
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
-Version: 0.8.9
-Release: 17%{?snapshot_date}%{?dist}
+Version: 0.9.3
+Release: 0.1.%{?snapshot_date}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -17,11 +17,6 @@ Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.ta
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
-
-Patch0: dont-timeout-waiting.patch
-Patch1: sysfs-tty-fix.patch
-Patch2: fix-theme-override.patch
-Patch3: fix-updates.patch
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: kernel-headers
@@ -222,13 +217,9 @@ Plymouth. It features a small spinner on a dark background.
 
 %prep
 %setup -q
-%patch0 -p1 -b .dont-timeout-waiting
-%patch1 -p1 -b .sysfs-tty-fix
-%patch2 -p1 -b .fix-theme-override
-%patch3 -p1 -b .fix-updates
 
 # Change the default theme
-sed -i -e 's/fade-in/charge/g' src/plymouthd.defaults
+sed -i -e 's/spinner/charge/g' src/plymouthd.defaults
 
 %build
 %configure --enable-tracing --disable-tests                      \
@@ -271,9 +262,6 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
 %post
 [ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
 
-%posttrans
-%{_libexecdir}/plymouth/plymouth-generate-initrd
-
 %postun
 if [ $1 -eq 0 ]; then
     rm -f %{_libdir}/plymouth/default.so
@@ -291,7 +279,6 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinfinity" ]; then
         %{_sbindir}/plymouth-set-default-theme text
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -300,7 +287,6 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "fade-in" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -309,7 +295,6 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "spinner" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -318,7 +303,6 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -329,7 +313,6 @@ if [ $1 -eq 1 ]; then
 else
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "solar" ]; then
         %{_sbindir}/plymouth-set-default-theme charge
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -338,7 +321,6 @@ export LIB=%{_lib}
 if [ $1 -eq 0 ]; then
     if [ "$(%{_sbindir}/plymouth-set-default-theme)" == "charge" ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
-        %{_libexecdir}/plymouth/plymouth-generate-initrd
     fi
 fi
 
@@ -359,10 +341,12 @@ fi
 %{_bindir}/plymouth
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
+%{_libdir}/plymouth/tribar.so
 %{_libdir}/plymouth/renderers/frame-buffer*
 %{_datadir}/plymouth/default-boot-duration
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
+%{_datadir}/plymouth/themes/tribar/tribar.plymouth
 %{_datadir}/plymouth/plymouthd.defaults
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
@@ -457,6 +441,10 @@ fi
 %files system-theme
 
 %changelog
+* Tue May 24 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.1.20160524
+- Update to latest git snapshot
+- Drop plymouth-generate-initrd scriptlets
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-17.2013.08.14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
