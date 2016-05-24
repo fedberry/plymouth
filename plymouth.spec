@@ -19,9 +19,11 @@ Source2: charge.plymouth
 Source3: plymouth-update-initrd
 
 BuildRequires: pkgconfig(libdrm)
+BuildRequires: pkgconfig(libudev)
 BuildRequires: kernel-headers
 BuildRequires: libpng-devel
-BuildRequires: pkgconfig(gtk+-2.0)
+BuildRequires: libxslt, docbook-style-xsl
+BuildRequires: pkgconfig(gtk+-3.0)
 BuildRequires: pango-devel >= 1.21.0
 BuildRequires: cairo-devel
 
