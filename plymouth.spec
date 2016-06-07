@@ -3,7 +3,7 @@
 %define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
-%define snapshot_date 20160524
+%define snapshot_date 20160607
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
@@ -443,6 +443,11 @@ fi
 %files system-theme
 
 %changelog
+* Tue Jun 07 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.1.
+- Update to latest git snapshot
+- Fixes use after free
+  Related: #1342673
+
 * Tue May 24 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.1.20160524
 - Update to latest git snapshot
 - Drop plymouth-generate-initrd scriptlets
