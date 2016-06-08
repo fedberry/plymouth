@@ -4,11 +4,12 @@
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
 %define snapshot_date 20160607
+%define snapshot_hash 375a65ff
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.1.%{?snapshot_date}%{?dist}
+Release: 0.3.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -443,6 +444,9 @@ fi
 %files system-theme
 
 %changelog
+* Wed Jun 08 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.3.git
+- new release versioning scheme to be more guideliney
+
 * Tue Jun 07 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.1.
 - Update to latest git snapshot
 - Fixes use after free
