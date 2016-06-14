@@ -3,13 +3,13 @@
 %define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
-%define snapshot_date 20160607
-%define snapshot_hash 375a65ff
+%define snapshot_date 20160614
+%define snapshot_hash 2c7147ad
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.3.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
+Release: 0.4.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -444,6 +444,10 @@ fi
 %files system-theme
 
 %changelog
+* Tue Jun 14 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.4.git
+- fix password prompt on text plugin
+  Resolves: #1344141
+
 * Wed Jun 08 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.3.git
 - new release versioning scheme to be more guideliney
 
