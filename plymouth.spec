@@ -3,18 +3,18 @@
 %define plymouth_libdir %{_libdir}
 %define plymouth_initrd_file /boot/initrd-plymouth.img
 
-%define snapshot_date 20160616
-%define snapshot_hash c2073146
+%define snapshot_date 20160620
+%define snapshot_hash 0e65b86c
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.5.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
+Release: 0.6.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
 
-Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.bz2
+Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.xz
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
@@ -444,6 +444,11 @@ fi
 %files system-theme
 
 %changelog
+* Mon Jun 20 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.6.git
+- Fix color palette issue
+- Fix splash at shutdown (if shutdown takes longer than 5 secs)
+- Make sure text based splashes update terminal size when fbcon loads
+
 * Thu Jun 16 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.5.git
 - really (?) fix password prompt on text plugin
   Resolves: #1344141
