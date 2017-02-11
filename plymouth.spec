@@ -9,7 +9,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.6.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
+Release: 0.7.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -444,6 +444,9 @@ fi
 %files system-theme
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-0.7.20160620git0e65b86c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Mon Jun 20 2016 Ray Strode <rstrode@redhat.com> - 0.9.3-0.6.git
 - Fix color palette issue
 - Fix splash at shutdown (if shutdown takes longer than 5 secs)
