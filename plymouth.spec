@@ -223,10 +223,11 @@ Plymouth. It features a small spinner on a dark background.
 %prep
 %setup -q
 
-# Change the default theme
-sed -i -e 's/spinner/charge/g' src/plymouthd.defaults
 %patch0 -p1
 
+# Change plymouth defaults
+sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
+-e 's/DeviceTimeout=5/DeviceTimeout=1/g' src/plymouthd.defaults
 
 %build
 %configure --enable-tracing --disable-tests                      \
