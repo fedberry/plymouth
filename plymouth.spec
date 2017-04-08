@@ -18,6 +18,8 @@ Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.ta
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
+# Only allow framebuffer 0 to be used.
+Patch0:  01-fb0-only.patch
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libudev)
@@ -223,6 +225,8 @@ Plymouth. It features a small spinner on a dark background.
 
 # Change the default theme
 sed -i -e 's/spinner/charge/g' src/plymouthd.defaults
+%patch0 -p1
+
 
 %build
 %configure --enable-tracing --disable-tests                      \
