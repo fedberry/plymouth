@@ -232,16 +232,16 @@ sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
 -e 's/DeviceTimeout=5/DeviceTimeout=1/g' src/plymouthd.defaults
 
 %build
-%configure --enable-tracing --disable-tests                      \
-           --with-logo=%{_datadir}/pixmaps/system-logo-white.png \
-           --with-background-start-color-stop=0x0073B3           \
-           --with-background-end-color-stop=0x00457E             \
-           --with-background-color=0x3391cd                      \
-           --disable-gdm-transition                              \
-           --enable-systemd-integration                          \
-           --without-system-root-install                         \
-           --without-log-viewer					 \
-           --without-rhgb-compat-link                            \
+%configure --enable-tracing --disable-tests\
+           --with-logo=%{_datadir}/pixmaps/system-logo-white.png\
+           --with-background-start-color-stop=0x000000\
+           --with-background-end-color-stop=0x333333\
+           --with-background-color=0x212121\
+           --disable-gdm-transition\
+           --enable-systemd-integration\
+           --without-system-root-install\
+           --without-log-viewer\
+           --without-rhgb-compat-link\
            --disable-libkms
 
 make
