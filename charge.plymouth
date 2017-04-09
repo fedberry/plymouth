@@ -1,6 +1,6 @@
 [Plymouth Theme]
 Name=Charge
-Description=A theme that features the shadowy hull of a Fedora logo charge up and and finally burst into into full form.
+Description=A theme that features the shadowy hull of a FedBerry logo charge up and and finally burst into into full form.
 ModuleName=two-step
 
 [two-step]
@@ -9,5 +9,5 @@ HorizontalAlignment=.5
 VerticalAlignment=.5
 Transition=none
 TransitionDuration=0.0
-BackgroundStartColor=0x202020
-BackgroundEndColor=0x202020
+BackgroundStartColor=0x000000
+BackgroundEndColor=0x444444
