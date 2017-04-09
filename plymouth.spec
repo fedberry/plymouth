@@ -19,7 +19,8 @@ Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
 # Only allow framebuffer 0 to be used.
-Patch0:  01-fb0-only.patch
+Patch0: 01-fb0-only.patch
+Patch1: 02-update-script-colours.patch
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libudev)
@@ -224,6 +225,7 @@ Plymouth. It features a small spinner on a dark background.
 %setup -q
 
 %patch0 -p1
+%patch1 -p1
 
 # Change plymouth defaults
 sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \

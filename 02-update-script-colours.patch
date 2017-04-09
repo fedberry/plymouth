@@ -1,0 +1,12 @@
+--- plymouth-0.9.3/themes/script/script.script.orig	2016-06-01 03:58:58.000000000 +0800
++++ plymouth-0.9.3/themes/script/script.script	2017-04-09 13:17:58.759052496 +0800
+@@ -1,7 +1,7 @@
+ # This is an example plymouth plugin script
+ 
+-Window.SetBackgroundTopColor(0.234, 0.43, 0.705);
+-Window.SetBackgroundBottomColor(0.16, 0.25, 0.44);
++Window.SetBackgroundTopColor(0.00, 0.00, 0.00);
++Window.SetBackgroundBottomColor(0.33, 0.33, 0.33);
+ 
+ logo.image = Image("special://logo");
+ logo.sprite = Sprite(logo.image);
