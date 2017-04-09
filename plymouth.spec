@@ -9,7 +9,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.7.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
+Release: 0.8.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -451,6 +451,14 @@ fi
 %files system-theme
 
 %changelog
+* Sun Apr 09 2017 Vaughan Agrez <devel@agrez.net> - 0.9.3-0.8.git
+- Only allow framebuffer 0 to be used (Patch0)
+- Update plymouthd.defaults
+- Disable plymouth-update-initrd (we don't use an initrd)
+- Modify charge theme for use with FedBerry
+- Change background colours
+- Update 'script' theme colours (Patch1)
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-0.7.20160620git0e65b86c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
