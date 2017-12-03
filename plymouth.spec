@@ -1,15 +1,21 @@
-%define plymouthdaemon_execdir %{_sbindir}
-%define plymouthclient_execdir %{_bindir}
-%define plymouth_libdir %{_libdir}
-%define plymouth_initrd_file /boot/initrd-plymouth.img
+%global plymouthdaemon_execdir %{_sbindir}
+%global plymouthclient_execdir %{_bindir}
+%global plymouth_libdir %{_libdir}
+%global plymouth_initrd_file /boot/initrd-plymouth.img
 
-%define snapshot_date 20160620
-%define snapshot_hash 0e65b86c
+# Set to 1 if building from snapshots.
+%global snapshot_build 0
+
+%if %{snapshot_build}
+%global snapshot_date 20160620
+%global snapshot_hash 0e65b86c
+%global snapshot_rel  %{?snapshot_date}git%{?snapshot_hash}
+%endif
 
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 0.8.%{?snapshot_date}git%{?snapshot_hash}%{?dist}
+Release: 3%{?snapshot_rel}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -451,6 +457,10 @@ fi
 %files system-theme
 
 %changelog
+* Sun Dec 03 2017 Vaughan Agrez <devel@agrez.net> - 0.9.3-3
+- New release - 0.9.3
+- Update spec & bump release
+
 * Sun Apr 09 2017 Vaughan Agrez <devel@agrez.net> - 0.9.3-0.8.git
 - Only allow framebuffer 0 to be used (Patch0)
 - Update plymouthd.defaults
