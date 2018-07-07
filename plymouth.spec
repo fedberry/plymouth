@@ -281,11 +281,9 @@ if [ $1 -eq 0 ]; then
     rm -f /boot/initrd-plymouth.img
 fi
 
-%post core-libs -p /sbin/ldconfig
-%postun core-libs -p /sbin/ldconfig
+%ldconfig_scriptlets core-libs
 
-%post graphics-libs -p /sbin/ldconfig
-%postun graphics-libs -p /sbin/ldconfig
+%ldconfig_scriptlets graphics-libs
 
 %postun theme-spinfinity
 export LIB=%{_lib}
