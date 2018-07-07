@@ -264,7 +264,6 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
-cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
 cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth
 
 # Add charge, our new default
@@ -275,8 +274,6 @@ cp $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow/{box,bullet,entry,lock}.png $
 # Drop glow, it's not very Fedora-y
 rm -rf $RPM_BUILD_ROOT%{_datadir}/plymouth/themes/glow
 
-%post
-[ -f %{_localstatedir}/lib/plymouth/boot-duration ] || cp -f %{_datadir}/plymouth/default-boot-duration %{_localstatedir}/lib/plymouth/boot-duration
 
 %postun
 if [ $1 -eq 0 ]; then
@@ -367,7 +364,6 @@ fi
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %{_mandir}/man?/*
-%ghost %{_localstatedir}/lib/plymouth/boot-duration
 %{_prefix}/lib/systemd/system/*
 %{_prefix}/lib/systemd/system/
 
