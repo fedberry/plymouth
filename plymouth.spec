@@ -15,7 +15,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 3%{?snapshot_rel}%{?dist}
+Release: 4%{?snapshot_rel}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
@@ -227,6 +227,7 @@ Requires(post): plymouth-scripts
 This package contains the "spinner" boot splash theme for
 Plymouth. It features a small spinner on a dark background.
 
+
 %prep
 %setup -q
 
@@ -236,6 +237,7 @@ Plymouth. It features a small spinner on a dark background.
 # Change plymouth defaults
 sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
 -e 's/DeviceTimeout=5/DeviceTimeout=1/g' src/plymouthd.defaults
+
 
 %build
 %configure --enable-tracing --disable-tests\
@@ -251,6 +253,7 @@ sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
            --disable-libkms
 
 make
+
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -334,6 +337,7 @@ if [ $1 -eq 0 ]; then
         %{_sbindir}/plymouth-set-default-theme --reset
     fi
 fi
+
 
 %files
 %license COPYING
@@ -450,7 +454,13 @@ fi
 
 %files system-theme
 
+
 %changelog
+* Sat Jul 07 2018 Vaughan Agrez <devel@agrez.net> - 0.9.3-4
+- Drop default boot duration from /var
+- Update %%post scripts
+- Cull really old changelog entries
+
 * Sun Dec 03 2017 Vaughan Agrez <devel@agrez.net> - 0.9.3-3
 - New release - 0.9.3
 - Update spec & bump release
