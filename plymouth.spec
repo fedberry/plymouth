@@ -18,7 +18,6 @@ Version: 0.9.3
 Release: 4%{?snapshot_rel}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
-Group: System Environment/Base
 
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.xz
 Source2: charge.plymouth
@@ -75,7 +74,6 @@ after boot.
 
 %package system-theme
 Summary: Plymouth default theme
-Group: System Environment/Base
 Requires: plymouth(system-theme) = %{version}-%{release}
 
 %description system-theme
@@ -83,7 +81,6 @@ This metapackage tracks the current distribution default theme.
 
 %package core-libs
 Summary: Plymouth core libraries
-Group: Development/Libraries
 
 %description core-libs
 This package contains the libply and libply-splash-core libraries
@@ -91,7 +88,6 @@ used by Plymouth.
 
 %package graphics-libs
 Summary: Plymouth graphics libraries
-Group: Development/Libraries
 Requires: %{name}-core-libs = %{version}-%{release}
 Requires: system-logos
 
@@ -101,7 +97,6 @@ used by graphical Plymouth splashes.
 
 %package devel
 Summary: Libraries and headers for writing Plymouth splash plugins
-Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
 
@@ -111,7 +106,6 @@ and headers needed to develop 3rd party splash plugins for Plymouth.
 
 %package scripts
 Summary: Plymouth related scripts
-Group: Applications/System
 Requires: findutils, coreutils, gzip, cpio, dracut, plymouth
 
 %description scripts
@@ -120,7 +114,6 @@ the system.
 
 %package plugin-label
 Summary: Plymouth label plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 
@@ -131,7 +124,6 @@ graphical boot splashes using pango and cairo.
 
 %package plugin-fade-throbber
 Summary: Plymouth "Fade-Throbber" plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 
@@ -142,7 +134,6 @@ while other images pulsate around during system boot up.
 
 %package theme-fade-in
 Summary: Plymouth "Fade-In" theme
-Group: System Environment/Base
 Requires: %{name}-plugin-fade-throbber = %{version}-%{release}
 Requires(post): plymouth-scripts
 
@@ -153,7 +144,6 @@ while stars twinkle around the logo during system boot up.
 
 %package plugin-throbgress
 Summary: Plymouth "Throbgress" plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
@@ -166,7 +156,6 @@ the screen.
 
 %package theme-spinfinity
 Summary: Plymouth "Spinfinity" theme
-Group: System Environment/Base
 Requires: %{name}-plugin-throbgress = %{version}-%{release}
 Requires(post): plymouth-scripts
 
@@ -177,7 +166,6 @@ spins in the shape of an infinity sign.
 
 %package plugin-space-flares
 Summary: Plymouth "space-flares" plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
@@ -188,7 +176,6 @@ Plymouth. It features a corner image with animated flares.
 
 %package theme-solar
 Summary: Plymouth "Solar" theme
-Group: System Environment/Base
 Requires: %{name}-plugin-space-flares = %{version}-%{release}
 Requires(post): plymouth-scripts
 
@@ -198,7 +185,6 @@ Plymouth. It features a blue flamed sun with animated solar flares.
 
 %package plugin-two-step
 Summary: Plymouth "two-step" plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 Requires: plymouth-plugin-label
@@ -211,7 +197,6 @@ short, fast one-shot animation.
 
 %package theme-charge
 Summary: Plymouth "Charge" plugin
-Group: System Environment/Base
 Requires: %{name}-plugin-two-step = %{version}-%{release}
 Requires(post): plymouth-scripts
 Provides: plymouth(system-theme) = %{version}-%{release}
@@ -223,7 +208,6 @@ and finally burst into full form.
 
 %package plugin-script
 Summary: Plymouth "script" plugin
-Group: System Environment/Base
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-graphics-libs = %{version}-%{release}
 
@@ -235,7 +219,6 @@ boot splash themes.
 
 %package theme-script
 Summary: Plymouth "Script" plugin
-Group: System Environment/Base
 Requires: %{name}-plugin-script = %{version}-%{release}
 Requires(post): %{_sbindir}/plymouth-set-default-theme
 
@@ -246,7 +229,6 @@ plugin.
 
 %package theme-spinner
 Summary: Plymouth "Spinner" theme
-Group: System Environment/Base
 Requires: %{name}-plugin-two-step = %{version}-%{release}
 Requires(post): plymouth-scripts
 
