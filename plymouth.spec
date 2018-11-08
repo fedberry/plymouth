@@ -21,7 +21,6 @@ URL: http://www.freedesktop.org/wiki/Software/Plymouth
 Group: System Environment/Base
 
 Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.tar.xz
-Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
 
@@ -294,7 +293,6 @@ find $RPM_BUILD_ROOT -name '*.a' -delete
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/plymouth
-cp $RPM_SOURCE_DIR/boot-duration $RPM_BUILD_ROOT%{_datadir}/plymouth/default-boot-duration
 cp -f $RPM_SOURCE_DIR/plymouth-update-initrd $RPM_BUILD_ROOT%{_libexecdir}/plymouth
 
 # Add charge, our new default
@@ -386,7 +384,6 @@ fi
 %{_libdir}/plymouth/text.so
 %{_libdir}/plymouth/tribar.so
 %{_libdir}/plymouth/renderers/frame-buffer*
-%{_datadir}/plymouth/default-boot-duration
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
 %{_datadir}/plymouth/themes/tribar/tribar.plymouth
@@ -394,6 +391,7 @@ fi
 %{_localstatedir}/run/plymouth
 %{_localstatedir}/spool/plymouth
 %{_mandir}/man?/*
+%ghost %{_localstatedir}/lib/plymouth/boot-duration
 %{_prefix}/lib/systemd/system/*
 %{_prefix}/lib/systemd/system/
 
