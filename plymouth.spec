@@ -267,7 +267,7 @@ sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
 
 
 %build
-%configure --enable-tracing --disable-tests\
+%configure --enable-tracing\
            --with-logo=%{_datadir}/pixmaps/system-logo-white.png\
            --with-background-start-color-stop=0x000000\
            --with-background-end-color-stop=0x333333\
@@ -275,9 +275,7 @@ sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
            --disable-gdm-transition\
            --enable-systemd-integration\
            --without-system-root-install\
-           --without-log-viewer\
            --without-rhgb-compat-link\
-           --disable-libkms
 
 make
 
@@ -313,6 +311,7 @@ fi
 %ldconfig_scriptlets core-libs
 
 %ldconfig_scriptlets graphics-libs
+
 
 %postun theme-spinfinity
 export LIB=%{_lib}
