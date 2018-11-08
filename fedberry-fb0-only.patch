@@ -1,0 +1,16 @@
+diff -U 3 -H -d -r -N -- plymouth-0.9.3/src/libply-splash-core/ply-device-manager.c plymouth-0.9.3-fb/src/libply-splash-core/ply-device-manager.c
+--- plymouth-0.9.3/src/libply-splash-core/ply-device-manager.c	2018-10-13 19:10:41.000000000 +0800
++++ plymouth-0.9.3-fb/src/libply-splash-core/ply-device-manager.c	2018-10-13 19:26:15.600189976 +0800
+@@ -312,8 +312,11 @@
+                                 const char *node;
+                                 node = udev_device_get_devnode (device);
+                                 if (node != NULL) {
+-                                        ply_trace ("found node %s", node);
++                                    if (!(strcmp (node, "/dev/fb0")))
++                                    {
+                                         found_device = create_devices_for_udev_device (manager, device);
++                                    }
++                                    else ply_trace ("framebuffer device other than fb0 found - ignoring");
+                                 }
+                         } else {
+                                 ply_trace ("device doesn't have a devices tag");

@@ -24,9 +24,37 @@ Source0: http://freedesktop.org/software/plymouth/releases/%{name}-%{version}.ta
 Source1: boot-duration
 Source2: charge.plymouth
 Source3: plymouth-update-initrd
+
+# Patches from upstream git for rotated-display support
+# https://bugs.freedesktop.org/show_bug.cgi?id=104714
+# These can all be dropped on the next rebase
+Patch1: 0001-device-manager-drop-superfluous-create_pixel_display.patch
+Patch2: 0002-main-Do-not-update-the-display-on-backspace-when-the.patch
+Patch3: 0003-pixel-buffer-Add-the-concept-of-device-rotation.patch
+Patch4: 0004-drm-Check-for-panel-orientation-connector-property.patch
+Patch5: 0005-drm-Reset-primary-plane-rotation-to-DRM_MODE_ROTATE_.patch
+Patch6: 0006-pixel-buffer-switch-device-rotation-to-an-enum.patch
+Patch7: 0007-terminal-add-include-for-sysmacros.h.patch
+
+# Patch from upstream for #1518464
+Patch8: 0001-device-manager-skip-graphical-renderer-setup-when-de.patch
+
+# Patch from upstream fixes boot with rhgb but no renderers available
+Patch9: 0001-device-manager-fall-back-to-text-mode-if-graphical-d.patch
+
+# Patches from upstream to fix details view on kernels build with
+# CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+Patch10: 0001-renderer-support-reactivating-renderer-without-closi.patch
+Patch11: 0002-main-move-ply_device_manager_deactivate_renderers-in.patch
+Patch12: 0003-main-Only-activate-renderers-if-the-splash-uses-pixe.patch
+Patch13: 0004-drm-Remove-unnecessary-reset_scan_out_buffer_if_need.patch
+Patch14: 0005-main-Show-details-when-ESC-is-pressed-during-splash_.patch
+Patch15: 0006-main-Fix-getting-detailed-logs-from-systemd.patch
+Patch16: 0007-main-fix-build.patch
+
 # Only allow framebuffer 0 to be used.
-Patch0: 01-fb0-only.patch
-Patch1: 02-update-script-colours.patch
+Patch100: fedberry-fb0-only.patch
+Patch101: fedberry-update-script-colours.patch
 
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libudev)
