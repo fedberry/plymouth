@@ -12,10 +12,11 @@
 %global snapshot_rel  %{?snapshot_date}git%{?snapshot_hash}
 %endif
 
+
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.3
-Release: 4%{?snapshot_rel}%{?dist}
+Release: 5%{?snapshot_rel}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 
@@ -54,6 +55,7 @@ Patch16: 0007-main-fix-build.patch
 Patch100: fedberry-fb0-only.patch
 Patch101: fedberry-update-script-colours.patch
 
+BuildRequires: gcc
 BuildRequires: pkgconfig(libdrm)
 BuildRequires: pkgconfig(libudev)
 BuildRequires: kernel-headers
@@ -64,7 +66,6 @@ BuildRequires: pango-devel >= 1.21.0
 BuildRequires: cairo-devel
 
 Requires(post): plymouth-scripts
-Requires: initscripts >= 8.83-1
 
 %description
 Plymouth provides an attractive graphical boot animation in
@@ -238,10 +239,7 @@ Plymouth. It features a small spinner on a dark background.
 
 
 %prep
-%setup -q
-
-%patch0 -p1
-%patch1 -p1
+%autosetup -p1
 
 # Change plymouth defaults
 sed -i -e 's/spinner/charge/g' -e 's/ShowDelay=5/ShowDelay=0/g' \
@@ -364,7 +362,6 @@ fi
 %{_libdir}/plymouth/details.so
 %{_libdir}/plymouth/text.so
 %{_libdir}/plymouth/tribar.so
-%{_libdir}/plymouth/renderers/frame-buffer*
 %{_datadir}/plymouth/themes/details/details.plymouth
 %{_datadir}/plymouth/themes/text/text.plymouth
 %{_datadir}/plymouth/themes/tribar/tribar.plymouth
@@ -394,8 +391,9 @@ fi
 %dir %{_libdir}/plymouth
 
 %files graphics-libs
-%{_libdir}/plymouth/renderers/drm*
 %{_libdir}/libply-splash-graphics.so.*
+%{_libdir}/plymouth/renderers/drm*
+%{_libdir}/plymouth/renderers/frame-buffer*
 
 %files scripts
 %{_sbindir}/plymouth-set-default-theme
@@ -463,6 +461,13 @@ fi
 
 
 %changelog
+* Sat Oct 13 2018 Vaughan Agrez <devel@agrez.net> - 0.9.3-5
+- Add upstream patches from Fedora
+- Drop unused default-boot-duration file
+- Drop groups in spec
+- Drop requires on initscripts
+- Drop unrecognised config switches
+
 * Sat Jul 07 2018 Vaughan Agrez <devel@agrez.net> - 0.9.3-4
 - Drop default boot duration from /var
 - Update %%post scripts
